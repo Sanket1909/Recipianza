@@ -24,21 +24,26 @@ const LoginComponent = () =>{
                     <View style={styles.horizontalLine}/>
 
                     {/* TextField View */}
-                    <TextInput
-                        inlineImageLeft='../assets/favicon.png'
-                        style={styles.textInputStyle}
-                        placeholder="Email"
-                        placeholderTextColor="#424242"
-                        keyboardType= "email-address"
-                    />
+                    <View style={styles.inputTextContainer}>
+                        <Image source={require('../assets/icons/email.png')} style={styles.inputTextImage} />
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder="Email"
+                            placeholderTextColor="#424242"                                keyboardType="email-address"
+                            textContentType="emailAddress"
+                        />
+                    </View>
 
-                    <TextInput
-                        inlineImageLeft='../assets/favicon.png'
-                        style={styles.textInputStyle}                            placeholder="Password"
-                        placeholderTextColor="#424242"
-                        keyboardType= "email-address"
-                        secureTextEntry={true}
-                    />
+                   <View style={styles.inputTextContainer}>
+                        <Image source={require('../assets/icons/password.png')} style={styles.inputTextImage} />
+                        <TextInput
+                            style={styles.inputText}
+                            placeholder="Password"
+                            placeholderTextColor="#424242"
+                            keyboardType="email-address"
+                            secureTextEntry={true}
+                         />
+                    </View>
 
                     <TouchableOpacity style = {styles.loginButtonStyle}
                         onPress={() => {
@@ -99,14 +104,27 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "black"
     },
-    textInputStyle: {
-        height: 50,
-        margin: 12,
+    inputTextContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
         borderWidth: 1,
+        height: 50,
+        borderRadius: 5 ,
+        margin: 12
+    },
+    inputTextImage: {
         padding: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        backgroundColor: "#FFFFFF"
+        margin: 5,
+        height: 25,
+        width: 25,
+        resizeMode : 'stretch',
+        alignItems: 'center'
+    },
+    inputText:{
+        flex:1,
+        fontSize: 20
     },
     signinText: {
         marginTop:20,
