@@ -18,7 +18,7 @@ const SignUpComponent = ({navigation}: any) =>{
                         <View>
                             <Text style={styles.signUpText}>Sign Up</Text>
                         </View>
-                        <View style={styles.horizontalLine}/>
+                        <View style={styles.seperator}/>
                         <View style={styles.inputTextContainer}>
                             <Image source={require('../assets/icons/user.png')} style={styles.inputTextImage} />
                             <TextInput
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 28
     },
-    horizontalLine:{
+    seperator:{
         borderBottomColor: 'black',
         borderBottomWidth: 2,
         marginTop: 10,
