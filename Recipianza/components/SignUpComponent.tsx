@@ -19,26 +19,31 @@ const SignUpComponent = () =>{
                     <TextInput
                         style={styles.input}
                         placeholder="First Name"
+                        placeholderTextColor="#424242"
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Last Name"
+                        placeholderTextColor="#424242"
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Email"
+                        placeholderTextColor="#424242"
                         keyboardType="email-address"
                         textContentType="emailAddress"
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Password"
+                        placeholderTextColor="#424242"
                         keyboardType="email-address"
                         secureTextEntry={true}
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Confirm 1 Password"
+                        placeholder="Confirm Password"
+                        placeholderTextColor="#424242"
                         keyboardType="email-address"
                         secureTextEntry={true}
                     />                    
