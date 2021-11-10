@@ -8,34 +8,43 @@ const recipeData = [
     {
         id: 1,
         title: "The Si mpsons",
-        preparationTime: 1989,
+        preparationTime: '1 hour',
         description: "The Si mpsons description", 
         image: require("../assets/recipeImages/pizza.png"), 
       },
       {
         id: 2,
-        title: "SpongeBob SquarePants ",
-        preparationTime: 1989,
-        description: "The Si mpsons description", 
+        title: "SpongeBob SquarePants",
+        preparationTime: '45 mins',
+        description: "The Si mpsons description.", 
         image: require("../assets/recipeImages/pizza.png"), 
       }
     ] 
     
-    const renderItem = ({ item, index }) => (
-        // <View style = {styles.containerCell}> 
-        //     <View style = {styles.containerCell}> <Text> {item.preparationTime}</Text> </View>
-        //     <View style = {styles.containerCell}> <Text> {item.preparationTime}</Text> </View>
-        // </View>
-
-        <View style = {styles.containerCell}>
-          <Text style={styles.title}> {item.title} </Text>
-          <Text> {item.preparationTime}</Text>
-          <Image
-            style={{ height: "50%", width: "50%"}}
-            source={item.image}
-            resizeMode="contain"
-          />
-          <Text> {item.description} </Text>
+    const renderItem = ({ item, index }: any) => (
+        <View style = {[styles.containerCell, { height: 160}]}>
+            <View style={{flexDirection: 'row', height: 120}}>
+                <View style={{flexDirection: 'column', flex: 1}}>
+                    <Text style={styles.title}> {item.title} </Text>
+                    <View style={styles.durationContainer}>
+                        <Image 
+                            source ={require('../assets/icons/time.png')} 
+                            style={styles.recipeDurationImage}
+                        /> 
+                        <Text style={styles.recipeDurationText}>{item.preparationTime}</Text>
+                    </View>
+                </View>
+                <View style={{flexDirection: 'column', flex: 1}}>
+                    <Image
+                        style={{ height: '100%', width: '100%'}}
+                        source={item.image}
+                        resizeMode="contain"
+                    />
+                </View>
+            </View>
+            <View style={{flexDirection: 'row', height: 40}}>
+                <Text> {item.description} </Text>
+            </View>
         </View>
     )
 
@@ -67,12 +76,28 @@ const styles = StyleSheet.create({
     },
     containerCell: {
         margin: 20,
+        marginVertical: 10,
         padding: 20,
         backgroundColor: '#FFFFFF'
     },
     recipeImage: {
 
-    }
+    },
+    durationContainer:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
+    recipeDurationImage:{
+        padding: 10,
+        marginVertical: 5,
+        marginRight: 5,
+        height: 25,
+        width: 25,
+    },
+    recipeDurationText:{
+        color: 'red',
+        marginTop: 8
+    },
 
 })
 
