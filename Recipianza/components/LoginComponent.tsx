@@ -5,7 +5,7 @@ import SignUpComponent from './SignUpComponent';
 
 const Stack = createNativeStackNavigator();
 
-const LoginComponentContent = ({navigation}) =>{
+const LoginComponentContent = ({navigation}: any) =>{
     return(
         <SafeAreaView style = {styles.container}>
             {/* Top Image View */}
@@ -25,7 +25,7 @@ const LoginComponentContent = ({navigation}) =>{
                         <Text style={styles.signinText}>Sign-in</Text>
                     </View>   
 
-                    <View style={styles.horizontalLine}/>
+                    <View style={styles.seperator}/>
 
                     {/* TextField View */}
                     <View style={styles.inputTextContainer}>
@@ -75,7 +75,7 @@ const LoginComponent =() => {
     return(
         <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginComponentContent}/>
-            <Stack.Screen name="SignUp" component={SignUpComponent}/>
+            <Stack.Screen name="SignUp" component={SignUpComponent} options={{title: 'Sign Up'}}/>
         </Stack.Navigator>
     )
 } 
@@ -146,13 +146,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "black",
     },
-    horizontalLine:{
+    seperator:{
         borderBottomColor: 'black',
         borderBottomWidth: 2,
-        marginTop: 10,
-        marginLeft: 142,
-        marginRight: 142,
+        marginTop: 10,        
         marginBottom: 20,
+        width: '30%',
+        alignSelf: 'center'
     },
     signupButton:{
         fontSize: 20,

@@ -4,7 +4,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable
 
 const Stack = createNativeStackNavigator();
 
-const SignUpComponent = ({navigation}) =>{
+const SignUpComponent = ({navigation}: any) =>{
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
@@ -118,9 +118,9 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 2,
         marginTop: 10,
-        marginLeft: 142,
-        marginRight: 142,
-        marginBottom: 20
+        marginBottom: 20,
+        width: '30%',
+        alignSelf: 'center'
     },
     inputTextContainer: {
         flexDirection: 'row',
