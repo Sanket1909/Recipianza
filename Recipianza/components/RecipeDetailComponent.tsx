@@ -18,25 +18,31 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                         <View>
                             <Text style={styles.recipeText}>Pizza</Text>
                         </View>
-                        <View>
-                            <Text style={styles.recipeText}>45 Mins</Text>
+                        <View style={styles.durationContainer}>
+                            <Image 
+                                source ={require('../assets/icons/time.png')} 
+                                style={styles.recipeDurationImage}
+                            /> 
+                            <Text style={styles.recipeDurationText}>45 Mins</Text>
                         </View>
                         <View>
-                            <Text>
-                                Pizza is a dish of Italian origin consisting of 
-                                usually round, flat base of leavened wheat-
-                                based dough topped with tomatoes, cheese
-                                and often various other ingredients(such as
-                                anchovies, mushrooms, onions, olives, 
-                                pineapple, meat ,etc.), which is then baked 
-                                at a high temperature, traditionally in a
-                                wood-fired oven.
-                                
-                                Procedure :
+                            <Text style={styles.recipeDescription}>
+                                {/* <pre>{`
+                                    Pizza is a dish of Italian origin consisting of 
+                                    usually round, flat base of leavened wheat-
+                                    based dough topped with tomatoes, cheese
+                                    and often various other ingredients(such as
+                                    anchovies, mushrooms, onions, olives, 
+                                    pineapple, meat ,etc.), which is then baked 
+                                    at a high temperature, traditionally in a
+                                    wood-fired oven.
+                                    
+                                    Procedure :
 
-                                Start with a medium bowl that's been lightly
-                                coated with olive oil. Add warm, dry yeast
-                                and sugar. Note : The activated yeast feeds 
+                                    Start with a medium bowl that's been lightly
+                                    coated with olive oil. Add warm, dry yeast
+                                    and sugar. Note : The activated yeast feeds
+                                    `}</pre> */}
                             </Text>
                         </View>
                     </ScrollView>
@@ -56,10 +62,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 15
     },
-    recipeImage:{
-        width: '100%', 
-        height: '100%'
-    },
     bottomBox:{
         flex: 2,
         padding: 10,
@@ -71,11 +73,34 @@ const styles = StyleSheet.create({
         marginLeft: 15, 
         marginRight: 15
     },
+    recipeImage:{
+        width: '100%', 
+        height: '100%'
+    },
+    durationContainer:{
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
+    recipeDurationImage:{
+        padding: 10,
+        marginVertical: 5,
+        marginRight: 5,
+        height: 25,
+        width: 25,
+    },
+    recipeDurationText:{
+        color: 'red',
+        marginTop: 8
+    },
     recipeText:{
         marginTop: 20,
         textAlign: 'left',
         fontWeight: 'bold',
         fontSize: 28
+    },
+    recipeDescription:{
+        marginTop: 5,
+        fontSize: 24,
     }
 })
 
