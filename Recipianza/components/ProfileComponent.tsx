@@ -4,21 +4,21 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable
 
 const Stack = createNativeStackNavigator();
 
-const SignUpComponent = ({navigation}: any) =>{
+const ProfileComponent = ({navigation}: any) =>{
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
                     <Image 
-                        source ={require('../assets/logo_boarding.png')} 
-                        style={styles.logoBoarding}
-                    />                
+                        source ={require('../assets/profile.png')}
+                    /> 
+                    <View style={styles.seperator}/>
+                    <View>
+                        <Text style={styles.signUpText}>Recipianza</Text>
+                    </View>
+                    <View style={styles.seperator}/>              
                 </View>
                 <View style = {styles.bottomBox}>
-                    <ScrollView style={styles.scrollView}>
-                        <View>
-                            <Text style={styles.signUpText}>Sign Up</Text>
-                        </View>
-                        <View style={styles.seperator}/>
+                    <ScrollView style={styles.scrollView}>                        
                         <View style={styles.inputTextContainer}>
                             <Image source={require('../assets/icons/user.png')} style={styles.inputTextImage} />
                             <TextInput
@@ -44,39 +44,19 @@ const SignUpComponent = ({navigation}: any) =>{
                                 keyboardType="email-address"
                                 textContentType="emailAddress"
                             />
-                        </View>
-                        <View style={styles.inputTextContainer}>
-                            <Image source={require('../assets/icons/password.png')} style={styles.inputTextImage} />
-                            <TextInput
-                                style={styles.inputText}
-                                placeholder="Password"
-                                placeholderTextColor="#424242"
-                                keyboardType="email-address"
-                                secureTextEntry={true}
-                            />
-                        </View>
-                        <View style={styles.inputTextContainer}>
-                            <Image source={require('../assets/icons/password.png')} style={styles.inputTextImage} />
-                            <TextInput
-                                style={styles.inputText}
-                                placeholder="Confirm Password"
-                                placeholderTextColor="#424242"
-                                keyboardType="email-address"
-                                secureTextEntry={true}
-                            />
-                        </View>
+                        </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Sign Up")
+                                alert("Save")
                             }}>
-                            <Text style = {styles.buttonFont}>Sign Up</Text>
+                            <Text style = {styles.buttonFont}>Save</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
+                        <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                navigation.navigate('Login')
+                                alert("Logout")
                             }}>
-                            <Text style={styles.loginButton}>Already Have An Account? LOGIN</Text>
-                        </TouchableOpacity>
+                            <Text style = {[styles.buttonFont, styles.logoutText]}>Logout</Text>
+                        </TouchableOpacity>                    
                     </ScrollView>
                 </View>
             </SafeAreaView>
@@ -86,23 +66,16 @@ const SignUpComponent = ({navigation}: any) =>{
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: 'black'
+        backgroundColor: '#EED50F'
     },
     topBox:{
         flex: 1.5,
         justifyContent: 'space-evenly',
-        alignItems: 'center',
-        padding: 15
-    },
-    logoBoarding:{
-        width: '100%', 
-        height: '100%'
+        alignItems: 'center'
     },
     bottomBox:{
         flex: 2,
-        padding: 10,
-        backgroundColor: '#EED50F',
-        borderTopRightRadius: 75
+        padding: 10
     },
     scrollView:{
         marginLeft: 15, 
@@ -117,10 +90,8 @@ const styles = StyleSheet.create({
     seperator:{
         borderBottomColor: 'black',
         borderBottomWidth: 2,
-        marginTop: 10,
-        marginBottom: 20,
-        width: '30%',
-        alignSelf: 'center'
+        padding: 10,
+        width: '100%'
     },
     inputTextContainer: {
         flexDirection: 'row',
@@ -160,11 +131,9 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold'
     },
-    loginButton:{
-        fontSize: 20,
-        marginTop: 20,
-        textAlign: 'center'
+    logoutText:{
+        color: 'red'
     }
 })
 
-export default SignUpComponent;
+export default ProfileComponent;
