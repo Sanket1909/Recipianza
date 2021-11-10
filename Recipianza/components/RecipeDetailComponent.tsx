@@ -26,8 +26,7 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                             <Text style={styles.recipeDurationText}>45 Mins</Text>
                         </View>
                         <View>
-                            <Text style={styles.recipeDescription}>
-                                {/* <pre>{`
+                            <Text style={styles.recipeDescription}>                    
                                     Pizza is a dish of Italian origin consisting of 
                                     usually round, flat base of leavened wheat-
                                     based dough topped with tomatoes, cheese
@@ -35,14 +34,13 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                                     anchovies, mushrooms, onions, olives, 
                                     pineapple, meat ,etc.), which is then baked 
                                     at a high temperature, traditionally in a
-                                    wood-fired oven.
-                                    
+                                    wood-fired oven.                                    
+                                    {"\n"}{"\n"}
                                     Procedure :
-
+                                    {"\n"}{"\n"}
                                     Start with a medium bowl that's been lightly
                                     coated with olive oil. Add warm, dry yeast
-                                    and sugar. Note : The activated yeast feeds
-                                    `}</pre> */}
+                                    and sugar. Note : The activated yeast feeds.
                             </Text>
                         </View>
                     </ScrollView>
