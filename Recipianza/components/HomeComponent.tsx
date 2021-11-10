@@ -22,41 +22,6 @@ const recipeData = [
       }
     ] 
     
-    const renderItem = ({ item, navigation }: any) => (
-        <TouchableOpacity
-            onPress={() => {
-                alert(JSON.stringify(item))
-                // alert(JSON.stringify(navigation))
-                navigation.navigate('RecipeDetail', {data: item})
-            }}
-        >
-            <View style = {[styles.containerCell, { height: 160}]}>
-                <View style={{flexDirection: 'row', height: 120}}>
-                    <View style={{flexDirection: 'column', flex: 1}}>
-                        <Text style={styles.title}> {item.title} </Text>
-                        <View style={styles.durationContainer}>
-                            <Image 
-                                source ={require('../assets/icons/time.png')} 
-                                style={styles.recipeDurationImage}
-                            /> 
-                            <Text style={styles.recipeDurationText}>{item.preparationTime}</Text>
-                        </View>
-                    </View>
-                    <View style={{flexDirection: 'column', flex: 1}}>
-                        <Image
-                            style={{ height: '100%', width: '100%'}}
-                            source={item.image}
-                            resizeMode="contain"
-                        />
-                    </View>
-                </View>
-                <View style={{flexDirection: 'row', height: 40}}>
-                    <Text> {item.description} </Text>
-                </View>
-            </View>
-        </TouchableOpacity>
-    )
-
 const HomeComponentContent = ({navigation}: any) =>{
     return(
         <SafeAreaView style = {styles.container}>
@@ -64,7 +29,39 @@ const HomeComponentContent = ({navigation}: any) =>{
                 <FlatList
                     data={recipeData}
                     keyExtractor={(item) => item.id.toString()}
-                    renderItem={renderItem}
+                    renderItem={
+                        ({item}) => 
+                        <TouchableOpacity
+                            onPress={() => {
+                                navigation.navigate('RecipeDetail', {data: item})
+                            }}
+                        >
+                            <View style = {[styles.containerCell]}>
+                                <View style={styles.recipeDetail}>
+                                    <View style={styles.recipeTitleImage}>
+                                        <Text style={styles.title}> {item.title} </Text>
+                                        <View style={styles.durationContainer}>
+                                            <Image 
+                                                source ={require('../assets/icons/time.png')} 
+                                                style={styles.recipeDurationImage}
+                                            /> 
+                                            <Text style={styles.recipeDurationText}>{item.preparationTime}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.recipeImageContainer}>
+                                        <Image
+                                            style={styles.recipeImage}
+                                            source={item.image}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.recipeDescription}>
+                                    <Text> {item.description} </Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    } 
                 />
             </View>
         </SafeAreaView>
@@ -94,13 +91,19 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     containerCell: {
+        height: 160,
         margin: 20,
         marginVertical: 10,
         padding: 20,
         backgroundColor: '#FFFFFF'
     },
-    recipeImage: {
-
+    recipeDetail:{
+        flexDirection: 'row', 
+        height: 120
+    },
+    recipeTitleImage:{
+        flexDirection: 'column',
+        flex: 1
     },
     durationContainer:{
         flexDirection: 'row',
@@ -117,6 +120,18 @@ const styles = StyleSheet.create({
         color: 'red',
         marginTop: 8
     },
+    recipeImageContainer:{
+        flexDirection: 'column', 
+        flex: 1
+    },
+    recipeImage:{ 
+        height: '100%', 
+        width: '100%'
+    },
+    recipeDescription:{
+        flexDirection: 'row', 
+        height: 40
+    }
 
 })
 
