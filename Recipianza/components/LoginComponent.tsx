@@ -1,7 +1,11 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView } from "react-native"
+import SignUpComponent from './SignUpComponent';
 
-const LoginComponent = () =>{
+const Stack = createNativeStackNavigator();
+
+const LoginComponentContent = ({navigation}) =>{
     return(
         <SafeAreaView style = {styles.container}>
             {/* Top Image View */}
@@ -29,7 +33,8 @@ const LoginComponent = () =>{
                         <TextInput
                             style={styles.inputText}
                             placeholder="Email"
-                            placeholderTextColor="#424242"                                keyboardType="email-address"
+                            placeholderTextColor="#424242"                                
+                            keyboardType="email-address"
                             textContentType="emailAddress"
                         />
                     </View>
@@ -55,17 +60,25 @@ const LoginComponent = () =>{
 
                     <TouchableOpacity
                         onPress={() => {
-                            alert("I am working")
+                            navigation.navigate('SignUp');
                         }}
                     >
                     <Text style = {styles.signupButton}>Don't have account? SIGN UP</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
-
         </SafeAreaView>
     )
 }
+
+const LoginComponent =() => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginComponentContent}/>
+            <Stack.Screen name="SignUp" component={SignUpComponent}/>
+        </Stack.Navigator>
+    )
+} 
 
 const styles = StyleSheet.create({
     container:{

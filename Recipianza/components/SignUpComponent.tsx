@@ -1,7 +1,10 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 
-const SignUpComponent = () =>{
+const Stack = createNativeStackNavigator();
+
+const SignUpComponent = ({navigation}) =>{
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
@@ -70,7 +73,7 @@ const SignUpComponent = () =>{
                         </TouchableOpacity>
                         <TouchableOpacity
                             onPress={() => {
-                                alert("Login")
+                                navigation.navigate('Login')
                             }}>
                             <Text style={styles.loginButton}>Already Have An Account? LOGIN</Text>
                         </TouchableOpacity>
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black'
     },
     topBox:{
-        flex: 1.3,
+        flex: 1.5,
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 15
