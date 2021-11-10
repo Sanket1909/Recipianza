@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import LoginComponent from './components/LoginComponent';
 import SignUpComponent from './components/SignUpComponent';
 
 export default function App() {
@@ -9,7 +10,10 @@ export default function App() {
     //   <Text>Recipianza</Text>
     //   <StatusBar style="auto" />
     // </View>
-    <SignUpComponent/>
+    
+    <LoginComponent/>
+    //<SignUpComponent/>
+    
   );
 }
 
