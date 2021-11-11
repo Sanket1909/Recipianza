@@ -6,8 +6,7 @@ import LoginComponent from './components/LoginComponent';
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <LoginComponent/> */}
-      <HomeComponent/>
+      <LoginComponent/>
     </NavigationContainer>
     
   );

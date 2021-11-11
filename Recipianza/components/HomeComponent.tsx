@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import ProfileComponent from './ProfileComponent';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
@@ -73,6 +74,7 @@ const HomeComponent =() => {
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeComponentContent} options={{title: 'Welcome'}}/>
             <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} options={{title: 'Detail'}}/>
+            <Stack.Screen name="Profile" component={ProfileComponent} options={{title: 'Profile'}}/>
         </Stack.Navigator>
     )
 } 
