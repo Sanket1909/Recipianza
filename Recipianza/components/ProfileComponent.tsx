@@ -1,12 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
 
 const Stack = createNativeStackNavigator();
 
 const ProfileComponent = ({navigation}: any) =>{
     return(
             <SafeAreaView style = {styles.container}>
+                
                 <View style={styles.topBox}>
                     <Image 
                         source ={require('../assets/profile.png')}
@@ -18,7 +19,8 @@ const ProfileComponent = ({navigation}: any) =>{
                     <View style={styles.seperator}/>              
                 </View>
                 <View style = {styles.bottomBox}>
-                    <ScrollView style={styles.scrollView}>                        
+                    <ScrollView style={styles.scrollView}>     
+                    <KeyboardAvoidingView enabled>                   
                         <View style={styles.inputTextContainer}>
                             <Image source={require('../assets/icons/user.png')} style={styles.inputTextImage} />
                             <TextInput
@@ -53,10 +55,15 @@ const ProfileComponent = ({navigation}: any) =>{
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Logout")
+                                //alert("Logout")
+                                //SAVE USR IS NOT LOGGED IN .
+                                localStorage.setItem('isUserLoggedIn', "false")
+
+                                //REDIRECT TO LoginComponenet
                             }}>
                             <Text style = {[styles.buttonFont, styles.logoutText]}>Logout</Text>
-                        </TouchableOpacity>                    
+                        </TouchableOpacity>  
+                        </KeyboardAvoidingView>                  
                     </ScrollView>
                 </View>
             </SafeAreaView>

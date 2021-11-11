@@ -1,12 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
 
 const Stack = createNativeStackNavigator();
 
 const SignUpComponent = ({navigation}: any) =>{
     return(
             <SafeAreaView style = {styles.container}>
+                
                 <View style={styles.topBox}>
                     <Image 
                         source ={require('../assets/logo_boarding.png')} 
@@ -15,6 +16,7 @@ const SignUpComponent = ({navigation}: any) =>{
                 </View>
                 <View style = {styles.bottomBox}>
                     <ScrollView style={styles.scrollView}>
+                    <KeyboardAvoidingView enabled>
                         <View>
                             <Text style={styles.signUpText}>Sign Up</Text>
                         </View>
@@ -77,6 +79,7 @@ const SignUpComponent = ({navigation}: any) =>{
                             }}>
                             <Text style={styles.loginButton}>Already Have An Account? LOGIN</Text>
                         </TouchableOpacity>
+                    </KeyboardAvoidingView>
                     </ScrollView>
                 </View>
             </SafeAreaView>
