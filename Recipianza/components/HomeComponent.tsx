@@ -9,16 +9,16 @@ const Stack = createNativeStackNavigator();
 const recipeData = [
     {
         id: 1,
-        title: "The Si mpsons",
+        title: "Garlic Pizza",
         preparationTime: '1 hour',
-        description: "The Si mpsons description", 
+        description: "The garlic pizza.", 
         image: require("../assets/recipeImages/pizza.png"), 
       },
       {
         id: 2,
-        title: "SpongeBob SquarePants",
+        title: "Mexican Pizza",
         preparationTime: '45 mins',
-        description: "The Si mpsons description.", 
+        description: "The mexican pizza.", 
         image: require("../assets/recipeImages/pizza.png")
       }
     ] 
@@ -48,6 +48,9 @@ const HomeComponentContent = ({navigation}: any) =>{
                                             /> 
                                             <Text style={styles.recipeDurationText}>{item.preparationTime}</Text>
                                         </View>
+                                        <View style={[styles.recipeDescription, { flexDirection: 'row' }]}>
+                                            <Text numberOfLines={4} > {item.description} </Text>
+                                        </View>
                                     </View>
                                     <View style={styles.recipeImageContainer}>
                                         <Image
@@ -56,10 +59,7 @@ const HomeComponentContent = ({navigation}: any) =>{
                                             resizeMode="contain"
                                         />
                                     </View>
-                                </View>
-                                <View style={styles.recipeDescription}>
-                                    <Text> {item.description} </Text>
-                                </View>
+                                </View>                        
                             </View>
                         </TouchableOpacity>
                     } 
