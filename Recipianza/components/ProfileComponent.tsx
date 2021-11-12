@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
@@ -49,15 +50,20 @@ const ProfileComponent = ({navigation}: any) =>{
                         </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Save")
+                                alert("Profile Saved")
                             }}>
                             <Text style = {styles.buttonFont}>Save</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                //alert("Logout")
-                                //SAVE USR IS NOT LOGGED IN .
-                                localStorage.setItem('isUserLoggedIn', "false")
+                                const isUserLoggedIn = async () => {		
+                                    try {
+                                      await AsyncStorage.setItem('isUserLoggedIn', 'false')
+                                    } catch (e) {
+                                      // saving error
+                                    }
+                                  }
+                                  isUserLoggedIn()
 
                                 //REDIRECT TO LoginComponenet
                             }}>

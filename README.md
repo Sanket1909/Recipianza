@@ -4,13 +4,13 @@
 
 # Install Node & React / Expo CLI
 
-# expo init Recipianza
+# CMD "expo init Recipianza"
 
-# Added 4 dependencies for Navigation for expo Project.
+# Added 4 dependencies for expo Project.
 
 # CMD "expo install react-native-screens react-native-safe-area-context"
 
-# CMD "npm install @react-navigation/native @react-navigation/native-stack"
+# CMD "expo install @react-navigation/native @react-navigation/native-stack"
 
 # Clone Repository
 

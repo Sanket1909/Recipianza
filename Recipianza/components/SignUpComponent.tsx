@@ -69,7 +69,7 @@ const SignUpComponent = ({navigation}: any) =>{
                         </View>
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Sign Up")
+                                navigation.navigate('Login')
                             }}>
                             <Text style = {styles.buttonFont}>Sign Up</Text>
                         </TouchableOpacity>
