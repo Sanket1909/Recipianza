@@ -18,6 +18,9 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                         <View>
                             <Text style={styles.recipeText}>Pizza</Text>
                         </View>
+                        <View>
+                            <Text style={styles.recipeOwnerText}> - Dominos</Text>
+                        </View>
                         <View style={styles.durationContainer}>
                             <Image 
                                 source ={require('../assets/icons/time.png')} 
@@ -81,20 +84,27 @@ const styles = StyleSheet.create({
     },
     recipeDurationImage:{
         padding: 10,
-        marginVertical: 5,
+        marginVertical: 15,
         marginRight: 5,
         height: 25,
         width: 25,
     },
     recipeDurationText:{
         color: 'red',
-        marginTop: 8
+        marginTop: 20
     },
     recipeText:{
         marginTop: 20,
         textAlign: 'left',
         fontWeight: 'bold',
         fontSize: 28
+    },
+    recipeOwnerText:{
+        marginTop: 18,
+        textAlign: 'left',
+        fontWeight: 'bold',
+        fontSize: 22,
+        color: 'navy'
     },
     recipeDescription:{
         marginTop: 5,

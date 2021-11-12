@@ -44,6 +44,9 @@ const FavoritesComponent = ({navigation}: any) =>{
                                             /> 
                                             <Text style={styles.recipeDurationText}>{item.preparationTime}</Text>
                                         </View>
+                                        <View style={[styles.recipeDescription, { flexDirection: 'row' }]}>
+                                            <Text numberOfLines={4} > {item.description} </Text>
+                                        </View>
                                     </View>
                                     <View style={styles.recipeImageContainer}>
                                         <Image
@@ -52,10 +55,7 @@ const FavoritesComponent = ({navigation}: any) =>{
                                             resizeMode="contain"
                                         />
                                     </View>
-                                </View>
-                                <View style={styles.recipeDescription}>
-                                    <Text> {item.description} </Text>
-                                </View>
+                                </View>                                
                             </View>
                         </TouchableOpacity>
                     } 
