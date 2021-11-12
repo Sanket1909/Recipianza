@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, Button} from "react-native"
 import ProfileComponent from './ProfileComponent';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
@@ -69,10 +69,36 @@ const HomeComponentContent = ({navigation}: any) =>{
     )
 }
 
-const HomeComponent =() => {
+const HomeComponent =( {navigation}: any ) => {
     return(
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeComponentContent} options={{title: 'Welcome'}}/>
+
+            <Stack.Screen name="Home" component={HomeComponentContent} 
+                options={{
+                    
+                    title: 'Welcome', 
+                    
+                    headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
+                    onPress={() => navigation.navigate('Favourite') }>
+                    <Image
+                         style={{height: 50, width :50,marginTop:0 ,marginLeft:0,marginRight:-20 }}
+                         resizeMode="contain"
+                         source={require('../assets/icons/email.png')}>
+                    </Image>
+                    </TouchableOpacity>,
+
+                    headerLeft: () => <TouchableOpacity style={ [{paddingHorizontal:0}] }
+                    onPress={() => navigation.navigate('Profile') }>
+                    <Image
+                        style={{height: 40, width :40,marginTop:0 ,marginLeft:-10,marginRight:0 }}
+                        resizeMode="contain"
+                        source={require('../assets/icons/user.png')}>
+                    </Image>
+                    </TouchableOpacity>,
+                }}
+            />
+
+
             <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} options={{title: 'Detail'}}/>
             <Stack.Screen name="Profile" component={ProfileComponent} options={{title: 'Profile'}}/>
         </Stack.Navigator>

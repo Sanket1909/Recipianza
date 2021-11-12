@@ -5,7 +5,7 @@ import HomeComponent from './components/HomeComponent';
 import LoginComponent from './components/LoginComponent';
 
 export default function App() {
-  if(false){
+  if(true){
     return (
       <NavigationContainer>
          <HomeComponent/>
