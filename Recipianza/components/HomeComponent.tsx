@@ -72,12 +72,9 @@ const HomeComponentContent = ({navigation}: any) =>{
 const HomeComponent =( {navigation}: any ) => {
     return(
         <Stack.Navigator>
-
             <Stack.Screen name="Home" component={HomeComponentContent} 
-                options={{
-                    
-                    title: 'Welcome', 
-                    
+                options={({ navigation }) => ({                    
+                    title: 'Welcome',           
                     headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
                     onPress={() => navigation.navigate('Favourite') }>
                     <Image
@@ -94,10 +91,9 @@ const HomeComponent =( {navigation}: any ) => {
                         resizeMode="contain"
                         source={require('../assets/icons/user.png')}>
                     </Image>
-                    </TouchableOpacity>,
-                }}
+                    </TouchableOpacity>
+                })}
             />
-
 
             <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} options={{title: 'Detail'}}/>
             <Stack.Screen name="Profile" component={ProfileComponent} options={{title: 'Profile'}}/>
