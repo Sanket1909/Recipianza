@@ -1,12 +1,14 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
 
 const Stack = createNativeStackNavigator();
 
 const ProfileComponent = ({navigation}: any) =>{
     return(
             <SafeAreaView style = {styles.container}>
+                
                 <View style={styles.topBox}>
                     <Image 
                         source ={require('../assets/profile.png')}
@@ -18,7 +20,8 @@ const ProfileComponent = ({navigation}: any) =>{
                     <View style={styles.seperator}/>              
                 </View>
                 <View style = {styles.bottomBox}>
-                    <ScrollView style={styles.scrollView}>                        
+                    <ScrollView style={styles.scrollView}>     
+                    <KeyboardAvoidingView enabled>                   
                         <View style={styles.inputTextContainer}>
                             <Image source={require('../assets/icons/user.png')} style={styles.inputTextImage} />
                             <TextInput
@@ -47,16 +50,26 @@ const ProfileComponent = ({navigation}: any) =>{
                         </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Save")
+                                alert("Profile Saved")
                             }}>
                             <Text style = {styles.buttonFont}>Save</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={() => {
-                                alert("Logout")
+                                const isUserLoggedIn = async () => {		
+                                    try {
+                                      await AsyncStorage.setItem('isUserLoggedIn', 'false')
+                                    } catch (e) {
+                                      // saving error
+                                    }
+                                  }
+                                  isUserLoggedIn()
+
+                                //REDIRECT TO LoginComponenet
                             }}>
                             <Text style = {[styles.buttonFont, styles.logoutText]}>Logout</Text>
-                        </TouchableOpacity>                    
+                        </TouchableOpacity>  
+                        </KeyboardAvoidingView>                  
                     </ScrollView>
                 </View>
             </SafeAreaView>

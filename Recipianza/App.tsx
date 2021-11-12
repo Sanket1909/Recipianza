@@ -1,22 +1,38 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import HomeComponent from './components/HomeComponent';
 import LoginComponent from './components/LoginComponent';
 
 export default function App() {
-  return (
+  const [state, currentState] = useState({
+    isLoading: true,
+    isLoggedIn: false 
+  });
+  isUserLoggedIn().then((response) => {
+    currentState({
+      isLoading: false,
+      isLoggedIn: response
+    });
+  })
+  return(
     <NavigationContainer>
-      <LoginComponent/>
+      {state.isLoggedIn ? <HomeComponent/> : <LoginComponent/>}
     </NavigationContainer>
-    
-  );
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const isUserLoggedIn = async () => {
+  try {
+    const isUserLoggedIn = await AsyncStorage.getItem('isUserLoggedIn')
+    if(isUserLoggedIn !== null && isUserLoggedIn === 'true') {
+      // value previously stored
+      return true
+    }
+  } catch(e) {
+    // error reading value
+    return false
+  }
+  return false
+}

@@ -1,18 +1,26 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from "react-native"
 import SignUpComponent from './SignUpComponent';
 
 const Stack = createNativeStackNavigator();
+
+// function componentDidMount() {
+//     const userLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
+//     console.log("User Logged in state" + userLoggedIn)
+// }
+    
 
 const LoginComponentContent = ({navigation}: any) =>{
     return(
         <SafeAreaView style = {styles.container}>
             {/* Top Image View */}
+            
             <View style={styles.topBox}>
                 <Image 
                     source ={require('../assets/logo_boarding.png')} 
-                    style={{width: '100%', height: '100%'}}
+                    style= {styles.logoBoarding}
                 />                
             </View>
 
@@ -20,6 +28,7 @@ const LoginComponentContent = ({navigation}: any) =>{
             {/* Login Button */}
             <View style = {styles.bottomBox}>
             <ScrollView>
+            <KeyboardAvoidingView enabled>
                     {/* Sign-in View */}
                     <View> 
                         <Text style={styles.signinText}>Sign-in</Text>
@@ -52,7 +61,14 @@ const LoginComponentContent = ({navigation}: any) =>{
 
                     <TouchableOpacity style = {styles.loginButtonStyle}
                         onPress={() => {
-                            alert("I am working")
+                            const isUserLoggedIn = async () => {		
+                                try {
+                                  await AsyncStorage.setItem('isUserLoggedIn', 'true')
+                                } catch (e) {
+                                  // saving error
+                                }
+                              }
+                              isUserLoggedIn()
                         }}
                     >
                     <Text style = {styles.buttonFont}>Login</Text>
@@ -65,6 +81,7 @@ const LoginComponentContent = ({navigation}: any) =>{
                     >
                     <Text style = {styles.signupButton}>Don't have account? SIGN UP</Text>
                     </TouchableOpacity>
+                    </KeyboardAvoidingView>
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -90,6 +107,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         padding: 15
+    },
+    logoBoarding:{
+        width: '100%', 
+        height: '100%'
     },
     bottomBox:{
         flex: 2,
