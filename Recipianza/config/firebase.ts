@@ -1,8 +1,16 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import { getAuth } from 'firebase/auth';
+import * as firebase from "firebase/app";
 import config from "./config";
 
 
-const Firebase = firebase.initializeApp(config.firebase);
+let app; 
 
-export default Firebase;
+if(firebase.getApps().length === 0){
+    app = firebase.initializeApp(config.firebase);
+}else{
+    app = firebase.getApp();
+}
+
+const auth = getAuth();
+
+export default auth;

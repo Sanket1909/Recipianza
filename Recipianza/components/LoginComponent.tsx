@@ -1,18 +1,29 @@
+import { signInWithEmailAndPassword } from '@firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from "react-native"
+import auth from '../config/firebase';
+import { Constants } from '../constants/Constants';
+import UserUtil from '../Utils/UserUtil';
 import SignUpComponent from './SignUpComponent';
 
 const Stack = createNativeStackNavigator();
-
-// function componentDidMount() {
-//     const userLoggedIn = localStorage.getItem('isUserLoggedIn') === 'true';
-//     console.log("User Logged in state" + userLoggedIn)
-// }
     
-
 const LoginComponentContent = ({navigation}: any) =>{
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const handleLogin = () => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Logged in with: ', user.email);
+            UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
+        }).catch(error => {
+            alert(error.message)
+        })
+    }
     return(
         <SafeAreaView style = {styles.container}>
             {/* Top Image View */}
@@ -45,6 +56,8 @@ const LoginComponentContent = ({navigation}: any) =>{
                             placeholderTextColor="#424242"                                
                             keyboardType="email-address"
                             textContentType="emailAddress"
+                            value={email}
+                            onChangeText={text => setEmail(text)}
                         />
                     </View>
 
@@ -56,20 +69,13 @@ const LoginComponentContent = ({navigation}: any) =>{
                             placeholderTextColor="#424242"
                             keyboardType="email-address"
                             secureTextEntry={true}
+                            value={password}
+                            onChangeText={text => setPassword(text)}
                          />
                     </View>
 
                     <TouchableOpacity style = {styles.loginButtonStyle}
-                        onPress={() => {
-                            const isUserLoggedIn = async () => {		
-                                try {
-                                  await AsyncStorage.setItem('isUserLoggedIn', 'true')
-                                } catch (e) {
-                                  // saving error
-                                }
-                              }
-                              isUserLoggedIn()
-                        }}
+                        onPress={handleLogin}
                     >
                     <Text style = {styles.buttonFont}>Login</Text>
                     </TouchableOpacity>
@@ -92,7 +98,7 @@ const LoginComponent =() => {
     return(
         <Stack.Navigator>
             <Stack.Screen name="Login" component={LoginComponentContent}/>
-            <Stack.Screen name="SignUp" component={SignUpComponent} options={{title: 'Sign Up'}}/>
+            <Stack.Screen name="SignUp" component={SignUpComponent} options={{title: 'Sign Up'}}/>            
         </Stack.Navigator>
     )
 } 
