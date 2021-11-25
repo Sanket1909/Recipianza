@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from "react-native"
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
-import UserUtil from '../Utils/UserUtil';
+import UserUtil from '../utils/UserUtil';
 import SignUpComponent from './SignUpComponent';
 
 const Stack = createNativeStackNavigator();

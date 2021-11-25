@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import HomeComponent from './components/HomeComponent';
 import LoginComponent from './components/LoginComponent';
-import UserUtil from './Utils/UserUtil';
+import UserUtil from './utils/UserUtil';
 
 export default function App() {
   const [state, currentState] = useState({

@@ -4,7 +4,7 @@ import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
-import UserUtil from '../Utils/UserUtil';
+import UserUtil from '../utils/UserUtil';
 
 const handleSignOut = () => {
     signOut(auth)
