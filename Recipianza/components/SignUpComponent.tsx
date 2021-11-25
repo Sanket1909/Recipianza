@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { createUser } from '../apis/UserApi';
 import auth from '../config/firebase';
 
 const SignUpComponent = ({navigation}: any) =>{   
@@ -19,7 +20,8 @@ const SignUpComponent = ({navigation}: any) =>{
             // Signed in 
             const user = userCredential.user;
             console.log(user.email);
-            // navigation.navigate('Login')            
+            createUser(user.uid, email, firstName, lastName);
+            navigation.navigate('Login');        
         })
         .catch((error) => {            
             alert(error.message);
