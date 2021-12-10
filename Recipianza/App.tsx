@@ -22,7 +22,7 @@ export default function App() {
     </NavigationContainer>
   )
 }
-
+// akshay
 const isUserLoggedIn = async () => {
   try {
     const isUserLoggedIn = await AsyncStorage.getItem('isUserLoggedIn')
