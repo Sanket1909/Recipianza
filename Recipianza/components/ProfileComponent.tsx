@@ -1,11 +1,23 @@
+import { signOut } from '@firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import auth from '../config/firebase';
+import { Constants } from '../constants/Constants';
+import UserUtil from '../utils/UserUtil';
 
-const Stack = createNativeStackNavigator();
+const handleSignOut = () => {
+    signOut(auth)
+    .then(() => {        
+        console.log('Sign Out');
+        UserUtil.setUserLoggedInStatus(Constants.FLAG_FALSE);
+    })
+    .catch(error => {
+        alert(error.message);
+    })
+}
 
-const ProfileComponent = ({navigation}: any) =>{
+const ProfileComponent = () =>{
     return(
             <SafeAreaView style = {styles.container}>
                 
@@ -55,18 +67,7 @@ const ProfileComponent = ({navigation}: any) =>{
                             <Text style = {styles.buttonFont}>Save</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.buttonStyle}
-                            onPress={() => {
-                                const isUserLoggedIn = async () => {		
-                                    try {
-                                      await AsyncStorage.setItem('isUserLoggedIn', 'false')
-                                    } catch (e) {
-                                      // saving error
-                                    }
-                                  }
-                                  isUserLoggedIn()
-
-                                //REDIRECT TO LoginComponenet
-                            }}>
+                            onPress={handleSignOut}>
                             <Text style = {[styles.buttonFont, styles.logoutText]}>Logout</Text>
                         </TouchableOpacity>  
                         </KeyboardAvoidingView>                  

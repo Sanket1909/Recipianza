@@ -1,10 +1,33 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native"
+import { createUserWithEmailAndPassword } from '@firebase/auth';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { createUser } from '../apis/UserApi';
+import auth from '../config/firebase';
 
-const Stack = createNativeStackNavigator();
-
-const SignUpComponent = ({navigation}: any) =>{
+const SignUpComponent = ({navigation}: any) =>{   
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const handleSignUp = () => {        
+        if(password !== confirmPassword){
+            alert('Password & Confirm Password must be same.')
+            return;
+        }
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            console.log(user.email);
+            createUser(user.uid, email, firstName, lastName);
+            navigation.navigate('Login');        
+        })
+        .catch((error) => {            
+            alert(error.message);
+        });
+    
+    } 
     return(
             <SafeAreaView style = {styles.container}>
                 
@@ -27,6 +50,8 @@ const SignUpComponent = ({navigation}: any) =>{
                                 style={styles.inputText}
                                 placeholder="First Name"
                                 placeholderTextColor="#424242"
+                                value={firstName}
+                                onChangeText={text => setFirstName(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -35,6 +60,8 @@ const SignUpComponent = ({navigation}: any) =>{
                                 style={styles.inputText}
                                 placeholder="Last Name"
                                 placeholderTextColor="#424242"
+                                value={lastName}
+                                onChangeText={text => setLastName(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -45,6 +72,8 @@ const SignUpComponent = ({navigation}: any) =>{
                                 placeholderTextColor="#424242"
                                 keyboardType="email-address"
                                 textContentType="emailAddress"
+                                value={email}
+                                onChangeText={text => setEmail(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -55,6 +84,8 @@ const SignUpComponent = ({navigation}: any) =>{
                                 placeholderTextColor="#424242"
                                 keyboardType="email-address"
                                 secureTextEntry={true}
+                                value={password}
+                                onChangeText={text => setPassword(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -65,12 +96,12 @@ const SignUpComponent = ({navigation}: any) =>{
                                 placeholderTextColor="#424242"
                                 keyboardType="email-address"
                                 secureTextEntry={true}
+                                value={confirmPassword}
+                                onChangeText={text => setConfirmPassword(text)}
                             />
                         </View>
                         <TouchableOpacity style = {styles.buttonStyle}
-                            onPress={() => {
-                                navigation.navigate('Login')
-                            }}>
+                            onPress={handleSignUp}>
                             <Text style = {styles.buttonFont}>Sign Up</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
