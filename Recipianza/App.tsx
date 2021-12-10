@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useState } from 'react';
-import HomeComponent from './components/HomeComponent';
 import LoginComponent from './components/LoginComponent';
+import AfterLoginComponent from './navigation/AfterLoginComponent';
 import UserUtil from './utils/UserUtil';
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
   })
   return(
     <NavigationContainer>
-      {state.isLoggedIn ? <HomeComponent/> : <LoginComponent/>}
+      {state.isLoggedIn ? <AfterLoginComponent/> : <LoginComponent/>}
     </NavigationContainer>
   )
 }
