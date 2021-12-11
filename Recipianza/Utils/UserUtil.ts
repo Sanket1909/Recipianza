@@ -25,6 +25,12 @@ export default class UserUtil{
       return userID
   }
 
+  static getCurrentUserId(): String{
+    let userId = ''
+    this.getLoggedInUserId().then(response => userId = response != null ? response.toString() : "")
+    return userId
+  }
+  
   static async isUserLoggedIn() {
     try {
       const isUserLoggedIn = await AsyncStorage.getItem(Constants.IS_USER_LOGGED_IN)

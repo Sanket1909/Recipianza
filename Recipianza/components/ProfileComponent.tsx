@@ -1,6 +1,7 @@
 import { signOut } from '@firebase/auth';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
@@ -19,7 +20,17 @@ const handleSignOut = () => {
     })
 }
 
-const ProfileComponentContent = () =>{
+const ProfileComponentContent = () => {
+    
+    useEffect(() => {
+        const db = getDatabase();        
+        const reference = ref(db, 'users/' + UserUtil.getCurrentUserId());
+        onValue(reference, (snapshot) => {
+            //let user = JSON.stringify(snapshot)
+            console.log("User: " + JSON.stringify(snapshot));
+        });                
+    })
+
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
@@ -41,6 +52,7 @@ const ProfileComponentContent = () =>{
                                 style={styles.inputText}
                                 placeholder="First Name"
                                 placeholderTextColor="#424242"
+                                //value={user.firstName}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -49,6 +61,7 @@ const ProfileComponentContent = () =>{
                                 style={styles.inputText}
                                 placeholder="Last Name"
                                 placeholderTextColor="#424242"
+                                //value={lastName}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -59,6 +72,7 @@ const ProfileComponentContent = () =>{
                                 placeholderTextColor="#424242"
                                 keyboardType="email-address"
                                 textContentType="emailAddress"
+                                //value={email}
                             />
                         </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}
