@@ -1,37 +1,36 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { getDatabase, onValue, ref } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import { getRecipes } from '../apis/RecipeApi';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
-
-const recipeData = [
-    {
-        id: 1,
-        title: "Garlic Pizza",
-        preparationTime: '1 hour',
-        description: "The garlic pizza.", 
-        image: require("../assets/recipeImages/pizza.png"), 
-      },
-      {
-        id: 2,
-        title: "Mexican Pizza",
-        preparationTime: '45 mins',
-        description: "The mexican pizza.", 
-        image: require("../assets/recipeImages/pizza.png")
-      }
-    ] 
-    
+  
 const HomeComponentContent = ({navigation}: any) =>{
+    const [data, setData] = useState<any>({
+        recipes: [],
+        isLoading: true
+    })
+    const [isLoading, setLoading] = useState(true)    
+    useEffect(() => {
+        let recipes: any[] = []
+        recipes = getRecipes()                     
+        setData({
+            recipes: recipes, 
+            isLoading: false
+        })        
+    }, [])
     return(
             <SafeAreaView style={styles.container}>
+                {data && !data.isLoading && data.recipes && data.recipes.length > 0 && (
                 <FlatList
-                    data={recipeData}
-                    keyExtractor={(item) => item.id.toString()}
+                    data={data.recipes}
+                    keyExtractor={(item) => item.id}
                     renderItem={
                         ({item}) => 
                         <TouchableOpacity
-                            onPress={() => {
+                            onPress={() => {                                
                                 navigation.navigate('RecipeDetail', {recipe: item})
                             }}
                         >
@@ -62,6 +61,7 @@ const HomeComponentContent = ({navigation}: any) =>{
                         </TouchableOpacity>
                     } 
                 />
+                )}
             </SafeAreaView>
     )
 }
