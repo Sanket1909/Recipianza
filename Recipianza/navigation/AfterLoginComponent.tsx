@@ -9,7 +9,7 @@ const Tabs = createBottomTabNavigator();
 
 const AfterLoginComponent = () =>{
     return(
-        <Tabs.Navigator initialRouteName="tab-home">            
+        <Tabs.Navigator initialRouteName="tab-home" screenOptions={{headerShown: false}}>            
             <Tabs.Screen name="tab-home" component={HomeComponent} 
             options={{ 
                 title: 'Home' ,

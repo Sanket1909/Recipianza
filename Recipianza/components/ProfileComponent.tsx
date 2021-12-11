@@ -1,9 +1,12 @@
 import { signOut } from '@firebase/auth';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import UserUtil from '../utils/UserUtil';
+
+const Stack = createNativeStackNavigator();
 
 const handleSignOut = () => {
     signOut(auth)
@@ -16,7 +19,7 @@ const handleSignOut = () => {
     })
 }
 
-const ProfileComponent = () =>{
+const ProfileComponentContent = () =>{
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
@@ -75,15 +78,34 @@ const ProfileComponent = () =>{
     )
 }
 
+const ProfileComponent = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Profile" component={ProfileComponentContent}
+                options={({ navigation }) => ({                    
+                    title: 'Profile',
+
+                    headerTintColor: 'white',
+
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    }
+                })}
+            />
+        </Stack.Navigator>
+    )
+} 
+
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: '#EED50F'
+        backgroundColor: '#EED50F'        
     },
     topBox:{
         flex: 1.5,
         justifyContent: 'space-evenly',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 10
     },
     bottomBox:{
         flex: 2,

@@ -1,6 +1,9 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import RecipeDetailComponent from './RecipeDetailComponent';
 
+const Stack = createNativeStackNavigator();
 
 const recipeData = [
     {
@@ -19,7 +22,7 @@ const recipeData = [
       }
     ] 
     
-const FavoritesComponent = ({navigation}: any) =>{
+const FavoritesComponentContent = ({navigation}: any) =>{
     return(        
             <SafeAreaView style={styles.container}>
                 <FlatList
@@ -62,6 +65,35 @@ const FavoritesComponent = ({navigation}: any) =>{
             </SafeAreaView>
     )
 }
+
+const FavoritesComponent = () => {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Favorites" component={FavoritesComponentContent}
+                options={({ navigation }) => ({                    
+                    title: 'Favorites',
+
+                    headerTintColor: 'white',
+
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    }
+                })}
+            />
+
+            <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} 
+                options={{
+                    title: 'Detail',
+
+                    headerTintColor: 'white',
+
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    },
+            }}/>
+        </Stack.Navigator>
+    )
+} 
 
 const styles = StyleSheet.create({
     containerExp: {
