@@ -1,13 +1,12 @@
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 
-// const Stack = createNativeStackNavigator();
+const RecipeDetailComponent = ({ route, navigation }: any) =>{
 
-const RecipeDetailComponent = ({navigation}: any) =>{
+    const  recipe = route.params.recipe;
     return(
             <SafeAreaView style = {styles.container}>
-                <View style={styles.topBox}>
+                <View style={styles.topBox}>          
                     <Image 
                         source ={require('../assets/recipeImages/pizza.png')} 
                         style={styles.recipeImage}
@@ -16,7 +15,7 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                 <View style = {styles.bottomBox}>
                     <ScrollView style={styles.scrollView}>
                         <View>
-                            <Text style={styles.recipeText}>Pizza</Text>
+                            <Text style={styles.recipeText}>{recipe.title}</Text>
                         </View>
                         <View>
                             <Text style={styles.recipeOwnerText}> - Dominos</Text>
@@ -26,11 +25,12 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                                 source ={require('../assets/icons/time.png')} 
                                 style={styles.recipeDurationImage}
                             /> 
-                            <Text style={styles.recipeDurationText}>45 Mins</Text>
+                            <Text style={styles.recipeDurationText}>{recipe.preparationTime}</Text>
                         </View>
                         <View>
                             <Text style={styles.recipeDescription}>                    
-                                    Pizza is a dish of Italian origin consisting of 
+                                    {recipe.description}
+                                    {/* Pizza is a dish of Italian origin consisting of 
                                     usually round, flat base of leavened wheat-
                                     based dough topped with tomatoes, cheese
                                     and often various other ingredients(such as
@@ -43,7 +43,7 @@ const RecipeDetailComponent = ({navigation}: any) =>{
                                     {"\n"}{"\n"}
                                     Start with a medium bowl that's been lightly
                                     coated with olive oil. Add warm, dry yeast
-                                    and sugar. Note : The activated yeast feeds.
+                                    and sugar. Note : The activated yeast feeds. */}
                             </Text>
                         </View>
                     </ScrollView>

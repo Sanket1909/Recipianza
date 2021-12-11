@@ -32,7 +32,7 @@ const HomeComponentContent = ({navigation}: any) =>{
                         ({item}) => 
                         <TouchableOpacity
                             onPress={() => {
-                                navigation.navigate('RecipeDetail', {data: item})
+                                navigation.navigate('RecipeDetail', {recipe: item})
                             }}
                         >
                             <View style = {[styles.containerCell]}>
