@@ -1,5 +1,6 @@
 import React from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import HeaderComponent from './HeaderComponent';
 
 
 const recipeData = [
@@ -20,9 +21,9 @@ const recipeData = [
     ] 
     
 const FavoritesComponent = ({navigation}: any) =>{
-    return(
-        <SafeAreaView style = {styles.container}>
+    return(        
             <View style={styles.container}>
+                <HeaderComponent/>
                 <FlatList
                     data={recipeData}
                     keyExtractor={(item) => item.id.toString()}
@@ -61,7 +62,6 @@ const FavoritesComponent = ({navigation}: any) =>{
                     } 
                 />
             </View>
-        </SafeAreaView>
     )
 }
 
