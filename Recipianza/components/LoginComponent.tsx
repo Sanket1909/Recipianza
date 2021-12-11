@@ -19,6 +19,7 @@ const LoginComponentContent = ({navigation}: any) =>{
             const user = userCredentials.user;
             console.log('Logged in with: ', user.email);
             UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
+            UserUtil.setLoggedInUserId(user.uid)
         }).catch(error => {
             alert(error.message)
         })
