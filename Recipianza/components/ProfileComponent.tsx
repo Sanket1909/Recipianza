@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { getUserProfile } from '../apis/UserApi';
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import UserUtil from '../utils/UserUtil';
@@ -21,16 +22,20 @@ const handleSignOut = () => {
 }
 
 const ProfileComponentContent = () => {
+
+    const [data, setData] = useState<any>({
+        user: {},
+        isLoading: true
+    })
     
     useEffect(() => {
-        const db = getDatabase();        
-        const reference = ref(db, 'users/' + UserUtil.getCurrentUserId());
-        onValue(reference, (snapshot) => {
-            //let user = JSON.stringify(snapshot)
-            console.log("User: " + JSON.stringify(snapshot));
-        });                
-    })
-
+        let user: any = {}
+        user = getUserProfile()                     
+        setData({
+            user: user, 
+            isLoading: false
+        })        
+    }, [])
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
