@@ -5,6 +5,7 @@ import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Touchable
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import UserUtil from '../utils/UserUtil';
+import HeaderComponent from './HeaderComponent';
 
 const handleSignOut = () => {
     signOut(auth)
@@ -19,8 +20,8 @@ const handleSignOut = () => {
 
 const ProfileComponent = () =>{
     return(
-            <SafeAreaView style = {styles.container}>
-                
+            <View style = {styles.container}>
+                <HeaderComponent/>
                 <View style={styles.topBox}>
                     <Image 
                         source ={require('../assets/profile.png')}
@@ -73,7 +74,7 @@ const ProfileComponent = () =>{
                         </KeyboardAvoidingView>                  
                     </ScrollView>
                 </View>
-            </SafeAreaView>
+            </View>
     )
 }
 

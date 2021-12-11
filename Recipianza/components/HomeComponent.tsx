@@ -1,9 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, Button} from "react-native"
-import ProfileComponent from './ProfileComponent';
-import RecipeDetailComponent from './RecipeDetailComponent';
-import FavoritesComponent from './FavoritesComponent';
+import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import HeaderComponent from './HeaderComponent';
+
 const Stack = createNativeStackNavigator();
 
 const recipeData = [
@@ -23,10 +22,10 @@ const recipeData = [
       }
     ] 
     
-const HomeComponentContent = ({navigation}: any) =>{
+const HomeComponent = ({navigation}: any) =>{
     return(
-        <SafeAreaView style = {styles.container}>
             <View style={styles.container}>
+                <HeaderComponent/>
                 <FlatList
                     data={recipeData}
                     keyExtractor={(item) => item.id.toString()}
@@ -65,74 +64,8 @@ const HomeComponentContent = ({navigation}: any) =>{
                     } 
                 />
             </View>
-        </SafeAreaView>
     )
 }
-
-const HomeComponent = () => {
-    return(
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeComponentContent} 
-                options={({ navigation }) => ({                    
-                    title: 'Welcome',
-
-                    headerTintColor: 'white',
-
-                    headerStyle: {
-                        backgroundColor: 'black'
-                    },
-                    headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
-                    onPress={() => navigation.navigate('Favorites') }>
-                    <Image
-                         style={{height: 40, width :40,marginTop:0 ,marginLeft:0,marginRight:-20 }}
-                         resizeMode="contain"
-                         source={require('../assets/icons/heart_white.png')}>
-                    </Image>
-                    </TouchableOpacity>,
-
-                    headerLeft: () => <TouchableOpacity style={ [{paddingHorizontal:0}] }
-                    onPress={() => navigation.navigate('Profile') }>
-                    <Image
-                        style={{height: 40, width :40,marginTop:0 ,marginLeft:-10,marginRight:0 }}
-                        resizeMode="contain"
-                        source={require('../assets/icons/user_white.png')}>
-                    </Image>
-                    </TouchableOpacity>
-                })}
-            />
-
-            <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} 
-                options={{
-                    title: 'Detail',
-
-                    headerTintColor: 'white',
-
-                    headerStyle: {
-                        backgroundColor: 'black'
-                    },
-            }}/>
-            <Stack.Screen name="Profile" component={ProfileComponent} options={{
-                title: 'Profile',
-
-                headerTintColor: 'white',
-
-                headerStyle: {
-                   backgroundColor: 'black'
-                },
-            }}/>
-            <Stack.Screen name="Favorites" component={FavoritesComponent} options={{
-                title: 'Favorites',
-
-                headerTintColor: 'white',
-
-                headerStyle: {
-                   backgroundColor: 'black'
-                },
-            }}/>
-        </Stack.Navigator>
-    )
-} 
-
 
 const styles = StyleSheet.create({
     containerExp: {
