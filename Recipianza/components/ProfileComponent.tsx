@@ -1,11 +1,9 @@
 import { signOut } from '@firebase/auth';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import UserUtil from '../utils/UserUtil';
-import HeaderComponent from './HeaderComponent';
 
 const handleSignOut = () => {
     signOut(auth)
@@ -20,8 +18,7 @@ const handleSignOut = () => {
 
 const ProfileComponent = () =>{
     return(
-            <View style = {styles.container}>
-                <HeaderComponent/>
+            <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>
                     <Image 
                         source ={require('../assets/profile.png')}
@@ -74,7 +71,7 @@ const ProfileComponent = () =>{
                         </KeyboardAvoidingView>                  
                     </ScrollView>
                 </View>
-            </View>
+            </SafeAreaView>
     )
 }
 

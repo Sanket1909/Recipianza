@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
-import HeaderComponent from './HeaderComponent';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,8 +23,7 @@ const recipeData = [
     
 const HomeComponent = ({navigation}: any) =>{
     return(
-            <View style={styles.container}>
-                <HeaderComponent/>
+            <SafeAreaView style={styles.container}>
                 <FlatList
                     data={recipeData}
                     keyExtractor={(item) => item.id.toString()}
@@ -63,7 +61,7 @@ const HomeComponent = ({navigation}: any) =>{
                         </TouchableOpacity>
                     } 
                 />
-            </View>
+            </SafeAreaView>
     )
 }
 
