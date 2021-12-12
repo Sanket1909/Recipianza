@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
 import { getRecipes } from '../apis/RecipeApi';
@@ -11,8 +10,7 @@ const HomeComponentContent = ({navigation}: any) =>{
     const [data, setData] = useState<any>({
         recipes: [],
         isLoading: true
-    })
-    const [isLoading, setLoading] = useState(true)    
+    })   
     useEffect(() => {
         let recipes: any[] = []
         recipes = getRecipes()                     
@@ -36,8 +34,8 @@ const HomeComponentContent = ({navigation}: any) =>{
                         >
                             <View style = {[styles.containerCell]}>
                                 <View style={styles.recipeDetail}>
-                                    <View style={styles.recipeTitleImage}>
-                                        <Text style={styles.title}> {item.title} </Text>
+                                    <View style={styles.recipeTitleImage}>                                        
+                                        <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'> {item.title} </Text>                                        
                                         <View style={styles.durationContainer}>
                                             <Image 
                                                 source ={require('../assets/icons/time.png')} 
@@ -52,7 +50,9 @@ const HomeComponentContent = ({navigation}: any) =>{
                                     <View style={styles.recipeImageContainer}>
                                         <Image
                                             style={styles.recipeImage}
-                                            source={item.image}
+                                            source={{
+                                                uri: item.image,
+                                              }}
                                             resizeMode="contain"
                                         />
                                     </View>
@@ -77,24 +77,7 @@ const HomeComponent = () => {
 
                     headerStyle: {
                         backgroundColor: 'black'
-                    },
-                    // headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
-                    // onPress={() => navigation.navigate('Favorites') }>
-                    // <Image
-                    //      style={{height: 40, width :40,marginTop:0 ,marginLeft:0,marginRight:-20 }}
-                    //      resizeMode="contain"
-                    //      source={require('../assets/icons/heart_white.png')}>
-                    // </Image>
-                    // </TouchableOpacity>,
-
-                    // headerLeft: () => <TouchableOpacity style={ [{paddingHorizontal:0}] }
-                    // onPress={() => navigation.navigate('Profile') }>
-                    // <Image
-                    //     style={{height: 40, width :40,marginTop:0 ,marginLeft:-10,marginRight:0 }}
-                    //     resizeMode="contain"
-                    //     source={require('../assets/icons/user_white.png')}>
-                    // </Image>
-                    // </TouchableOpacity>
+                    }
                 })}
             />
 
@@ -123,6 +106,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
+        top: 4
     },
     containerCell: {
         height: 160,
@@ -141,14 +125,16 @@ const styles = StyleSheet.create({
     },
     durationContainer:{
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        flexShrink: 1,
+        top: 5
     },
     recipeDurationImage:{
         padding: 10,
         marginVertical: 5,
         marginRight: 5,
         height: 25,
-        width: 25,
+        width: 25
     },
     recipeDurationText:{
         color: 'red',
@@ -164,7 +150,7 @@ const styles = StyleSheet.create({
     },
     recipeDescription:{
         flexDirection: 'row', 
-        height: 40
+        height: 60
     }
 
 })
