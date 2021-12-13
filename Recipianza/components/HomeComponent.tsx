@@ -75,7 +75,7 @@ const HomeComponent = () => {
     return(
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeComponentContent}
-                options={({ navigation }) => ({                    
+                options={() => ({                    
                     title: 'Welcome',
 
                     headerTintColor: 'white',

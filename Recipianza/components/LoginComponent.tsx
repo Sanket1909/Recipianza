@@ -97,8 +97,28 @@ const LoginComponentContent = ({navigation}: any) =>{
 const LoginComponent =() => {
     return(
         <Stack.Navigator>
-            <Stack.Screen name="Login" component={LoginComponentContent}/>
-            <Stack.Screen name="SignUp" component={SignUpComponent} options={{title: 'Sign Up'}}/>            
+            <Stack.Screen name="Login" component={LoginComponentContent}
+                options={() => ({                    
+                    title: 'Login',
+
+                    headerTintColor: 'white',
+
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    }
+                })}
+            />
+            <Stack.Screen name="SignUp" component={SignUpComponent}
+                options={() => ({                    
+                    title: 'Sign Up',
+
+                    headerTintColor: 'white',
+
+                    headerStyle: {
+                        backgroundColor: 'black'
+                    }
+                })}
+            />            
         </Stack.Navigator>
     )
 } 

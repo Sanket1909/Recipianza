@@ -1,14 +1,20 @@
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 const RecipeDetailComponent = ({ route, navigation }: any) =>{
 
     const  recipe = route.params.recipe;
+
+    const addToFavourites = () => {
+        
+    }
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>          
                     <Image 
-                        source ={require('../assets/recipeImages/pizza.png')} 
+                        source={{
+                            uri: recipe.image,
+                          }}
                         style={styles.recipeImage}
                     />                
                 </View>
@@ -17,13 +23,22 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
                         <View>
                             <Text style={styles.recipeText}>{recipe.title}</Text>
                         </View>
-                        <View>
+                        {/* <View>
                             <Text style={styles.recipeOwnerText}> - Dominos</Text>
+                        </View> */}
+                        <View style={styles.durationContainer}>
+                        <TouchableOpacity activeOpacity = { .5 } onPress={addToFavourites}>
+                        <Image 
+                                source ={require('../assets/icons/heart_white.png')} 
+                                style={styles.recipeDurationImage}
+                            /> 
+                        </TouchableOpacity>                                                        
                         </View>
                         <View style={styles.durationContainer}>
                             <Image 
                                 source ={require('../assets/icons/time.png')} 
                                 style={styles.recipeDurationImage}
+                                
                             /> 
                             <Text style={styles.recipeDurationText}>{recipe.preparationTime}</Text>
                         </View>
