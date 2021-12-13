@@ -27,23 +27,9 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
                             /> 
                             <Text style={styles.recipeDurationText}>{recipe.preparationTime}</Text>
                         </View>
-                        <View>
-                            <Text style={styles.recipeDescription}>                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.recipeDescription} >                    
                                     {recipe.description}
-                                    {/* Pizza is a dish of Italian origin consisting of 
-                                    usually round, flat base of leavened wheat-
-                                    based dough topped with tomatoes, cheese
-                                    and often various other ingredients(such as
-                                    anchovies, mushrooms, onions, olives, 
-                                    pineapple, meat ,etc.), which is then baked 
-                                    at a high temperature, traditionally in a
-                                    wood-fired oven.                                    
-                                    {"\n"}{"\n"}
-                                    Procedure :
-                                    {"\n"}{"\n"}
-                                    Start with a medium bowl that's been lightly
-                                    coated with olive oil. Add warm, dry yeast
-                                    and sugar. Note : The activated yeast feeds. */}
                             </Text>
                         </View>
                     </ScrollView>
@@ -109,6 +95,7 @@ const styles = StyleSheet.create({
     recipeDescription:{
         marginTop: 5,
         fontSize: 24,
+        flexShrink: 1        
     }
 })
 

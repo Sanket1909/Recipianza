@@ -26,7 +26,7 @@ export default class UserUtil{
   }
 
   static getCurrentUserId(): String{
-    let userId = ''
+    let userId: string = ''
     this.getLoggedInUserId().then(response => userId = response != null ? response.toString() : "")
     return userId
   }

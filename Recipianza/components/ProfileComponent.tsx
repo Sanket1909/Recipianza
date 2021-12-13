@@ -1,6 +1,6 @@
 import { signOut } from '@firebase/auth';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getDatabase, ref, onValue } from 'firebase/database';
+import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
 import { getUserProfile } from '../apis/UserApi';
@@ -22,19 +22,36 @@ const handleSignOut = () => {
 }
 
 const ProfileComponentContent = () => {
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
 
     const [data, setData] = useState<any>({
-        user: {},
         isLoading: true
     })
     
     useEffect(() => {
-        let user: any = {}
-        user = getUserProfile()                     
-        setData({
-            user: user, 
-            isLoading: false
-        })        
+        let user: User = {
+            userId: '',
+            firstName: '',
+            lastName: '',
+            email: ''
+        }
+        onValue(getUserProfile(), (response) => {
+            response.forEach(iUser => {
+                let iUserJson = iUser.toJSON()                                    
+                Object.assign(iUserJson, iUser)
+                if(user.userId === UserUtil.getCurrentUserId()){
+                    Object.assign(user, iUserJson)
+                }
+            })            
+            setFirstName(user.firstName)
+            setLastName(user.lastName)
+            setEmail(user.email)            
+            setData({
+                isLoading: false
+            })
+        });                                    
     }, [])
     return(
             <SafeAreaView style = {styles.container}>
@@ -57,7 +74,7 @@ const ProfileComponentContent = () => {
                                 style={styles.inputText}
                                 placeholder="First Name"
                                 placeholderTextColor="#424242"
-                                //value={user.firstName}
+                                value={firstName}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -66,7 +83,7 @@ const ProfileComponentContent = () => {
                                 style={styles.inputText}
                                 placeholder="Last Name"
                                 placeholderTextColor="#424242"
-                                //value={lastName}
+                                value={lastName}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -77,7 +94,8 @@ const ProfileComponentContent = () => {
                                 placeholderTextColor="#424242"
                                 keyboardType="email-address"
                                 textContentType="emailAddress"
-                                //value={email}
+                                value={email}
+                                editable={false}
                             />
                         </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}

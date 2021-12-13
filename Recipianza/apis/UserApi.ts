@@ -1,4 +1,4 @@
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { getDatabase, onValue, Query, ref, set } from "firebase/database";
 import UserUtil from "../utils/UserUtil";
 
 const db = getDatabase();
@@ -12,16 +12,8 @@ const db = getDatabase();
   });
 }
 
-  function getUserProfile() {      
-
-    let user : any = {};
-
-    const reference = ref(db, 'users/' + UserUtil.getCurrentUserId());
-    onValue(reference, (response) => {
-        user = response.toJSON()
-        console.log("User Profile: " + JSON.stringify(user))
-    }); 
-  return user
+  function getUserProfile(): Query {      
+    return ref(db, 'users/' + UserUtil.getCurrentUserId());         
   }
 
 export {createUser, getUserProfile}; 

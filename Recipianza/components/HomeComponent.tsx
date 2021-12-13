@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
 import { getRecipes } from '../apis/RecipeApi';
@@ -13,11 +14,15 @@ const HomeComponentContent = ({navigation}: any) =>{
     })   
     useEffect(() => {
         let recipes: any[] = []
-        recipes = getRecipes()                     
-        setData({
-            recipes: recipes, 
-            isLoading: false
-        })        
+        onValue(getRecipes(), (response) => {
+            response.forEach((recipe) => {
+                recipes.push(recipe.toJSON())
+            })
+            setData({
+                recipes: recipes, 
+                isLoading: false
+            })
+        });                        
     }, [])
     return(
             <SafeAreaView style={styles.container}>
