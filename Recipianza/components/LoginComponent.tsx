@@ -14,15 +14,26 @@ const LoginComponentContent = ({navigation}: any) =>{
     const [password, setPassword] = useState<string>('');
 
     const handleLogin = () => {
-        signInWithEmailAndPassword(auth, email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Logged in with: ', user.email);
-            UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
-            UserUtil.setLoggedInUserId(user.uid)
-        }).catch(error => {
-            alert(error.message)
-        })
+        
+        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+
+        if (!strongRegex.test(email)) {
+            alert('Please enter a valid email id')
+            return false;
+        } else if (password.trim().length < 6) {
+            alert('Password must be minimum 8 characters')
+            return;
+        } else {
+            signInWithEmailAndPassword(auth, email, password)
+            .then(userCredentials => {
+                const user = userCredentials.user;
+                console.log('Logged in with: ', user.email);
+                UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
+                UserUtil.setLoggedInUserId(user.uid)
+            }).catch(error => {
+                alert(error.message)
+            })
+        }
     }
     return(
         <SafeAreaView style = {styles.container}>
