@@ -20,9 +20,9 @@ export default class UserUtil{
   }
 
   static async getLoggedInUserId() {
-      const userID = await AsyncStorage.getItem(Constants.USER_ID)
-      console.log('logged in user id', userID)
-      return userID
+      const userId = await AsyncStorage.getItem(Constants.USER_ID)
+      console.log('logged in user id', userId)
+      return userId
   }
 
   static getCurrentUserId(): String{

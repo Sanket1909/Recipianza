@@ -3,32 +3,40 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
-import { getUserProfile } from '../apis/UserApi';
+import { getUserProfile, updateProfile } from '../apis/UserApi';
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import UserUtil from '../utils/UserUtil';
 
 const Stack = createNativeStackNavigator();
 
-const handleSignOut = () => {
-    signOut(auth)
-    .then(() => {        
-        console.log('Sign Out');
-        UserUtil.setUserLoggedInStatus(Constants.FLAG_FALSE);
-    })
-    .catch(error => {
-        alert(error.message);
-    })
-}
-
 const ProfileComponentContent = () => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
+    const [userId, setUserId] = useState<string>('');
 
     const [data, setData] = useState<any>({
         isLoading: true
     })
+
+    const handleSignOut = () => {
+        signOut(auth)
+        .then(() => {        
+            console.log('Sign Out');
+            UserUtil.setUserLoggedInStatus(Constants.FLAG_FALSE);
+        })
+        .catch(error => {
+            alert(error.message);
+        })
+    }
+
+    const updateUser = () => {
+        updateProfile(userId, firstName, lastName)
+        setFirstName(firstName)
+        setLastName(lastName)
+        alert("Profile Updated")             
+    } 
     
     useEffect(() => {
         let user: User = {
@@ -48,6 +56,7 @@ const ProfileComponentContent = () => {
             setFirstName(user.firstName)
             setLastName(user.lastName)
             setEmail(user.email)            
+            setUserId(user.userId)
             setData({
                 isLoading: false
             })
@@ -75,6 +84,7 @@ const ProfileComponentContent = () => {
                                 placeholder="First Name"
                                 placeholderTextColor="#424242"
                                 value={firstName}
+                                onChangeText={text => setFirstName(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -84,6 +94,7 @@ const ProfileComponentContent = () => {
                                 placeholder="Last Name"
                                 placeholderTextColor="#424242"
                                 value={lastName}
+                                onChangeText={text => setLastName(text)}
                             />
                         </View>
                         <View style={styles.inputTextContainer}>
@@ -96,13 +107,12 @@ const ProfileComponentContent = () => {
                                 textContentType="emailAddress"
                                 value={email}
                                 editable={false}
+                                selectTextOnFocus={false}
                             />
                         </View>                        
                         <TouchableOpacity style = {styles.buttonStyle}
-                            onPress={() => {
-                                alert("Profile Saved")
-                            }}>
-                            <Text style = {styles.buttonFont}>Save</Text>
+                            onPress={updateUser}>
+                            <Text style = {styles.buttonFont}>Update</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style = {styles.buttonStyle}
                             onPress={handleSignOut}>
