@@ -3,6 +3,7 @@ import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
 import { getFavoriteRecipes } from '../apis/UserApi';
+import auth from '../config/firebase';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
@@ -13,23 +14,27 @@ const FavoritesComponentContent = ({navigation}: any) =>{
         isLoading: true
     })   
     useEffect(() => {
-        let recipes: any[] = []
-        onValue(getFavoriteRecipes(), (response) => {
-            response.forEach((recipe) => {
-                recipes.push(recipe.toJSON())
-            })
-            setData({
-                recipes: recipes, 
-                isLoading: false
-            })
-        });                        
-    }, [])
+        const unsubscribe = navigation.addListener('focus', () => {   
+            let recipes: any[] = []
+            onValue(getFavoriteRecipes(auth.currentUser != null ? auth.currentUser.uid :  ''), (response) => {                
+                response.forEach((recipe) => {
+                    recipes.push(recipe.toJSON())
+                })
+                setData({
+                    recipes: recipes, 
+                    isLoading: false
+                })
+                console.log('Favorites loaded')
+            });                        
+        });            
+        return unsubscribe              
+    }, [navigation])
     return(        
             <SafeAreaView style={styles.container}>
                 {data && !data.isLoading && data.recipes && data.recipes.length > 0 && (
                 <FlatList
                     data={data.recipes}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={
                         ({item}) => 
                         <TouchableOpacity

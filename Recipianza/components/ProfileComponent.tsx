@@ -10,7 +10,7 @@ import UserUtil from '../utils/UserUtil';
 
 const Stack = createNativeStackNavigator();
 
-const ProfileComponentContent = () => {
+const ProfileComponentContent = ({navigation}: any) => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -32,9 +32,7 @@ const ProfileComponentContent = () => {
     }
 
     const updateUser = () => {
-
-        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-
+        
         if (firstName.trim().length < 2) {
             alert('Please enter your first name. Name should be greater than 2 characters.')
             return;
@@ -50,29 +48,33 @@ const ProfileComponentContent = () => {
     } 
     
     useEffect(() => {
-        let user: User = {
-            userId: '',
-            firstName: '',
-            lastName: '',
-            email: ''
-        }
-        onValue(getUserProfile(), (response) => {
-            response.forEach(iUser => {
-                let iUserJson = iUser.toJSON()                                    
-                Object.assign(iUserJson, iUser)
-                if(user.userId === UserUtil.getCurrentUserId()){
-                    Object.assign(user, iUserJson)
-                }
-            })            
-            setFirstName(user.firstName)
-            setLastName(user.lastName)
-            setEmail(user.email)            
-            setUserId(user.userId)
-            setData({
-                isLoading: false
-            })
-        });                                    
-    }, [])
+        const unsubscribe = navigation.addListener('focus', () => {   
+            let user: User = {
+                userId: '',
+                firstName: '',
+                lastName: '',
+                email: ''
+            }
+            onValue(getUserProfile(), (response) => {
+                response.forEach(iUser => {
+                    let iUserJson = iUser.toJSON()                                    
+                    Object.assign(iUserJson, iUser)
+                    if(user.userId === UserUtil.getCurrentUserId()){
+                        Object.assign(user, iUserJson)
+                    }
+                })            
+                setFirstName(user.firstName)
+                setLastName(user.lastName)
+                setEmail(user.email)            
+                setUserId(user.userId)
+                setData({
+                    isLoading: false
+                })
+                console.log('Profile loaded')
+            });                                    
+        });          
+        return unsubscribe
+    }, [navigation])
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>

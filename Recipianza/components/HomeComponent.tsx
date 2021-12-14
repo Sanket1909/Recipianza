@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
@@ -12,24 +13,28 @@ const HomeComponentContent = ({navigation}: any) =>{
         recipes: [],
         isLoading: true
     })   
-    useEffect(() => {
-        let recipes: any[] = []
-        onValue(getRecipes(), (response) => {
-            response.forEach((recipe) => {
-                recipes.push(recipe.toJSON())
-            })
-            setData({
-                recipes: recipes, 
-                isLoading: false
-            })
-        });                        
-    }, [])
+    useEffect(() => {        
+        const unsubscribe = navigation.addListener('focus', () => {
+            let recipes: any[] = []
+            onValue(getRecipes(), (response) => {
+                response.forEach((recipe) => {
+                    recipes.push(recipe.toJSON())
+                })
+                setData({
+                    recipes: recipes, 
+                    isLoading: false
+                })
+                console.log('recipes loaded')
+            }); 
+          });      
+          return unsubscribe                       
+    }, [navigation])
     return(
             <SafeAreaView style={styles.container}>
                 {data && !data.isLoading && data.recipes && data.recipes.length > 0 && (
                 <FlatList
                     data={data.recipes}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={
                         ({item}) => 
                         <TouchableOpacity

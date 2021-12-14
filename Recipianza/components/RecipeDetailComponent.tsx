@@ -21,11 +21,15 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
         alert('Recipe removed from favourites')
     }
 
-    useEffect(() => {        
-        onValue(checkRecipeExistInFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe.id), (response) => {           
-           response !== null ? setFavorite(true) : ''        
-        });                                    
-    }, [])
+    useEffect(() => {     
+        const unsubscribe = navigation.addListener('focus', () => {   
+            onValue(checkRecipeExistInFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe.id), (response) => {           
+                response !== null ? setFavorite(true) : ''        
+            });
+        });      
+        console.log('recipe loaded : '+recipe.id)
+        return unsubscribe
+    }, [navigation])
         
     return(
             <SafeAreaView style = {styles.container}>
