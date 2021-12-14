@@ -6,28 +6,35 @@ import auth from '../config/firebase';
 
 const RecipeDetailComponent = ({ route, navigation }: any) =>{
 
-    const [favorite, setFavorite] = useState<boolean>()
+    const [favorite, setFavorite] = useState<boolean>(false)
     const recipe = route.params.recipe;
 
     const addFavorite = () => {      
         addToFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)
         setFavorite(true)
+        console.log('Favorite add flag : '+favorite)
         alert('Recipe added to favourites')
     }
 
     const removeFavorite = () => {      
-        removeFromFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)        
+        removeFromFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)      
         setFavorite(false)
+        console.log('Favorite remove flag : '+favorite)
         alert('Recipe removed from favourites')
     }
 
     useEffect(() => {     
         const unsubscribe = navigation.addListener('focus', () => {   
-            onValue(checkRecipeExistInFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe.id), (response) => {           
-                response !== null ? setFavorite(true) : ''        
+            onValue(checkRecipeExistInFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe.id), (response) => {
+                    let retrievedRecipe: any = {}
+                    Object.assign(retrievedRecipe, response.toJSON())   
+                    console.log('Favorite recipe : '+ JSON.stringify(response))                 
+                    if (retrievedRecipe && retrievedRecipe.id){
+                        setFavorite(true)                                              
+                    }
+                    console.log('Favorite flag : '+favorite)                     
             });
-        });      
-        console.log('recipe loaded : '+recipe.id)
+        });              
         return unsubscribe
     }, [navigation])
         
@@ -50,22 +57,27 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
                             <Text style={styles.recipeOwnerText}> - Dominos</Text>
                         </View> */}
                         <View style={styles.durationContainer}>
-                            {    favorite ?
-                                 <TouchableOpacity activeOpacity = { .5 } onPress={addFavorite}>                        
-                                 <Image 
-                                         source ={require('../assets/icons/heart_unselected.png')} 
-                                         style={styles.recipeDurationImage}
-                                     /> 
-                                 </TouchableOpacity>
-
-                                :
-
-                                 <TouchableOpacity activeOpacity = { .5 } onPress={removeFavorite}>
+                            {  favorite === true ?
+                                 (<TouchableOpacity activeOpacity = { .5 }  onPress={() => {
+                                    removeFavorite()  
+                                 }}>                     
                                  <Image 
                                          source ={require('../assets/icons/heart_selected.png')} 
                                          style={styles.recipeDurationImage}
+                                     /> 
+                                 </TouchableOpacity>
+                                 )
+                                :
+                                (
+                                 <TouchableOpacity activeOpacity = { .5 } onPress={() => {
+                                    addFavorite() 
+                                 }}>
+                                 <Image 
+                                         source ={require('../assets/icons/heart_unselected.png')} 
+                                         style={styles.recipeDurationImage}
                                      />
                                  </TouchableOpacity>                                                       
+                                )
                             }
                        
                         </View>
