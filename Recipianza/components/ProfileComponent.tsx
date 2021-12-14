@@ -32,10 +32,21 @@ const ProfileComponentContent = () => {
     }
 
     const updateUser = () => {
-        updateProfile(userId, firstName, lastName)
-        setFirstName(firstName)
-        setLastName(lastName)
-        alert("Profile Updated")             
+
+        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+
+        if (firstName.trim().length < 2) {
+            alert('Please enter your first name. Name should be greater than 2 characters.')
+            return;
+        } else if (lastName.trim().length < 2) {
+            alert('Please enter your last name. Name should be greater than 2 characters.')
+            return;
+        } else {
+            updateProfile(userId, firstName, lastName)
+            setFirstName(firstName)
+            setLastName(lastName)
+            alert("Profile Updated")
+        }
     } 
     
     useEffect(() => {
