@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
 import { getFavoriteRecipes } from '../apis/UserApi';
 import auth from '../config/firebase';
+import UserUtil from '../utils/UserUtil';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
@@ -92,7 +93,7 @@ const FavoritesComponent = () => {
             />
 
             <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} 
-                options={{
+                options={({ route }: any) => ({ 
                     title: 'Detail',
 
                     headerTintColor: 'white',
@@ -100,7 +101,17 @@ const FavoritesComponent = () => {
                     headerStyle: {
                         backgroundColor: 'black'
                     },
-            }}/>
+                    headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
+                    onPress={() => 
+                        UserUtil.onShare(route.params.recipe)
+                    }>
+                    <Image
+                        style={{height: 25, width: 25, marginTop: 5, marginLeft:0 ,marginRight: 0 }}
+                        resizeMode="contain"
+                        source={require('../assets/icons/share.png')}>
+                    </Image>
+                    </TouchableOpacity>
+            })}/>
         </Stack.Navigator>
     )
 } 

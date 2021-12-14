@@ -1,3 +1,4 @@
+import { Share } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Constants } from "../constants/Constants";
 
@@ -44,4 +45,24 @@ export default class UserUtil{
     }
     return false
   }
+
+  static onShare = async (recipe: any) => {
+    try {
+      const result = await Share.share({
+          title: recipe.title,
+          message: recipe.description
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error: any) {
+      // alert(error.message)
+    }
+  };
 }

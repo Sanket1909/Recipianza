@@ -2,8 +2,9 @@ import { useFocusEffect } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, Share} from "react-native"
 import { getRecipes } from '../apis/RecipeApi';
+import UserUtil from '../utils/UserUtil';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
@@ -76,7 +77,7 @@ const HomeComponentContent = ({navigation}: any) =>{
     )
 }
 
-const HomeComponent = () => {
+const HomeComponent = () => {    
     return(
         <Stack.Navigator>
             <Stack.Screen name="Home" component={HomeComponentContent}
@@ -92,7 +93,7 @@ const HomeComponent = () => {
             />
 
             <Stack.Screen name="RecipeDetail" component={RecipeDetailComponent} 
-                options={{
+                options={({ route }: any) => ({ 
                     title: 'Detail',
 
                     headerTintColor: 'white',
@@ -100,7 +101,17 @@ const HomeComponent = () => {
                     headerStyle: {
                         backgroundColor: 'black'
                     },
-            }}/>
+                    headerRight: () => <TouchableOpacity style={ [{paddingHorizontal:15}] }
+                    onPress={() => 
+                        UserUtil.onShare(route.params.recipe)
+                    }>
+                    <Image
+                         style={{height: 25, width: 25, marginTop: 5, marginLeft:0 ,marginRight: 0 }}
+                         resizeMode="contain"
+                         source={require('../assets/icons/share.png')}>
+                    </Image>
+                    </TouchableOpacity>
+            })}/>
         </Stack.Navigator>
     )
 } 
