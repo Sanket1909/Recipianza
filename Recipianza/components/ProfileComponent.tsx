@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     },
     buttonFont:{
         color: 'black',
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     logoutText:{
