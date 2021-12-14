@@ -1,13 +1,32 @@
-import React from 'react';
+import { onValue } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { addToFavorites, checkRecipeExistInFavorites, removeFromFavorites } from '../apis/UserApi';
+import auth from '../config/firebase';
 
 const RecipeDetailComponent = ({ route, navigation }: any) =>{
 
-    const  recipe = route.params.recipe;
+    const [favorite, setFavorite] = useState<boolean>()
+    const recipe = route.params.recipe;
 
-    const addToFavourites = () => {
-        
+    const addFavorite = () => {      
+        addToFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)
+        setFavorite(true)
+        alert('Recipe added to favourites')
     }
+
+    const removeFavorite = () => {      
+        removeFromFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)        
+        setFavorite(false)
+        alert('Recipe removed from favourites')
+    }
+
+    useEffect(() => {        
+        onValue(checkRecipeExistInFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe.id), (response) => {           
+           response !== null ? setFavorite(true) : ''        
+        });                                    
+    }, [])
+        
     return(
             <SafeAreaView style = {styles.container}>
                 <View style={styles.topBox}>          
@@ -27,12 +46,24 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
                             <Text style={styles.recipeOwnerText}> - Dominos</Text>
                         </View> */}
                         <View style={styles.durationContainer}>
-                        <TouchableOpacity activeOpacity = { .5 } onPress={addToFavourites}>
-                        <Image 
-                                source ={require('../assets/icons/heart_white.png')} 
-                                style={styles.recipeDurationImage}
-                            /> 
-                        </TouchableOpacity>                                                        
+                            {    favorite ?
+                                 <TouchableOpacity activeOpacity = { .5 } onPress={addFavorite}>                        
+                                 <Image 
+                                         source ={require('../assets/icons/heart_unselected.png')} 
+                                         style={styles.recipeDurationImage}
+                                     /> 
+                                 </TouchableOpacity>
+
+                                :
+
+                                 <TouchableOpacity activeOpacity = { .5 } onPress={removeFavorite}>
+                                 <Image 
+                                         source ={require('../assets/icons/heart_selected.png')} 
+                                         style={styles.recipeDurationImage}
+                                     />
+                                 </TouchableOpacity>                                                       
+                            }
+                       
                         </View>
                         <View style={styles.durationContainer}>
                             <Image 

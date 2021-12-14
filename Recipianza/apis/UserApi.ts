@@ -23,4 +23,18 @@ const db = getDatabase();
     });
   }
 
-export {createUser, getUserProfile, updateProfile}; 
+  function addToFavorites(userId: string, recipe: any){
+     update(ref(db, 'users/' + userId + '/favorites/' + recipe.id), recipe)
+  }
+
+  function removeFromFavorites(userId: string, recipe: any){
+    update(ref(db, 'users/' + userId ), {
+      ['/favorites/' + recipe.id]: null
+    })
+  }
+
+  function checkRecipeExistInFavorites(userId: string, recipeId: string): Query{
+    return ref(db, 'users/' + userId + '/favorites/' + recipeId)
+  }
+
+export {createUser, getUserProfile, updateProfile, addToFavorites, removeFromFavorites, checkRecipeExistInFavorites}; 
