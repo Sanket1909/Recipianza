@@ -37,4 +37,8 @@ const db = getDatabase();
     return ref(db, 'users/' + userId + '/favorites/' + recipeId)
   }
 
-export {createUser, getUserProfile, updateProfile, addToFavorites, removeFromFavorites, checkRecipeExistInFavorites}; 
+  function getFavoriteRecipes(): Query{
+    return ref(db, 'users/' + UserUtil.getCurrentUserId() + '/favorites')
+  }
+
+export {createUser, getUserProfile, updateProfile, addToFavorites, removeFromFavorites, checkRecipeExistInFavorites, getFavoriteRecipes}; 

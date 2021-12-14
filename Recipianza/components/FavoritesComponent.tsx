@@ -1,32 +1,34 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { onValue } from 'firebase/database';
+import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity} from "react-native"
+import { getFavoriteRecipes } from '../apis/UserApi';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();
-
-const recipeData = [
-    {
-        id: 1,
-        title: "The Si mpsons",
-        preparationTime: '1 hour',
-        description: "The Si mpsons description", 
-        image: require("../assets/recipeImages/pizza.png"), 
-      },
-      {
-        id: 2,
-        title: "SpongeBob SquarePants",
-        preparationTime: '45 mins',
-        description: "The Si mpsons description.", 
-        image: require("../assets/recipeImages/pizza.png")
-      }
-    ] 
     
 const FavoritesComponentContent = ({navigation}: any) =>{
+    const [data, setData] = useState<any>({
+        recipes: [],
+        isLoading: true
+    })   
+    useEffect(() => {
+        let recipes: any[] = []
+        onValue(getFavoriteRecipes(), (response) => {
+            response.forEach((recipe) => {
+                recipes.push(recipe.toJSON())
+            })
+            setData({
+                recipes: recipes, 
+                isLoading: false
+            })
+        });                        
+    }, [])
     return(        
             <SafeAreaView style={styles.container}>
+                {data && !data.isLoading && data.recipes && data.recipes.length > 0 && (
                 <FlatList
-                    data={recipeData}
+                    data={data.recipes}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={
                         ({item}) => 
@@ -38,7 +40,7 @@ const FavoritesComponentContent = ({navigation}: any) =>{
                             <View style = {[styles.containerCell]}>
                                 <View style={styles.recipeDetail}>
                                     <View style={styles.recipeTitleImage}>
-                                        <Text style={styles.title}> {item.title} </Text>
+                                    <Text style={styles.title} numberOfLines={1} ellipsizeMode='tail'> {item.title} </Text> 
                                         <View style={styles.durationContainer}>
                                             <Image 
                                                 source ={require('../assets/icons/time.png')} 
@@ -53,7 +55,9 @@ const FavoritesComponentContent = ({navigation}: any) =>{
                                     <View style={styles.recipeImageContainer}>
                                         <Image
                                             style={styles.recipeImage}
-                                            source={item.image}
+                                            source={{
+                                                uri: item.image,
+                                              }}
                                             resizeMode="contain"
                                         />
                                     </View>
@@ -62,6 +66,7 @@ const FavoritesComponentContent = ({navigation}: any) =>{
                         </TouchableOpacity>
                     } 
                 />
+                )}
             </SafeAreaView>
     )
 }
@@ -70,7 +75,7 @@ const FavoritesComponent = () => {
     return(
         <Stack.Navigator>
             <Stack.Screen name="Favorites" component={FavoritesComponentContent}
-                options={({ navigation }) => ({                    
+                options={() => ({                    
                     title: 'Favorites',
 
                     headerTintColor: 'white',
@@ -106,6 +111,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
+        top: 4
     },
     containerCell: {
         height: 160,
@@ -124,14 +130,16 @@ const styles = StyleSheet.create({
     },
     durationContainer:{
         flexDirection: 'row',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        flexShrink: 1,
+        top: 5
     },
     recipeDurationImage:{
         padding: 10,
         marginVertical: 5,
         marginRight: 5,
         height: 25,
-        width: 25,
+        width: 25
     },
     recipeDurationText:{
         color: 'red',
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
     },
     recipeDescription:{
         flexDirection: 'row', 
-        height: 40
+        height: 60
     }
 
 })
