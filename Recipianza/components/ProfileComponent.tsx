@@ -2,11 +2,11 @@ import { signOut } from '@firebase/auth';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Alert } from "react-native";
 import { getUserProfile, updateProfile } from '../apis/UserApi';
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
-import UserUtil from '../utils/UserUtil';
+import UserUtil from '../Utils/UserUtil';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,16 +34,16 @@ const ProfileComponentContent = ({navigation}: any) => {
     const updateUser = () => {
         
         if (firstName.trim().length < 2) {
-            alert('Please enter your first name. Name should be greater than 2 characters.')
+            Alert.alert('Please enter your first name. Name should be greater than 2 characters.')
             return;
         } else if (lastName.trim().length < 2) {
-            alert('Please enter your last name. Name should be greater than 2 characters.')
+            Alert.alert('Please enter your last name. Name should be greater than 2 characters.')
             return;
         } else {
             updateProfile(userId, firstName, lastName)
             setFirstName(firstName)
             setLastName(lastName)
-            alert("Profile Updated")
+            Alert.alert("Profile Updated")
         }
     } 
     
@@ -56,21 +56,30 @@ const ProfileComponentContent = ({navigation}: any) => {
                 email: ''
             }
             onValue(getUserProfile(), (response) => {
-                response.forEach(iUser => {
-                    let iUserJson = iUser.toJSON()                                    
-                    Object.assign(iUserJson, iUser)
-                    if(user.userId === UserUtil.getCurrentUserId()){
-                        Object.assign(user, iUserJson)
-                    }
-                })            
-                setFirstName(user.firstName)
-                setLastName(user.lastName)
-                setEmail(user.email)            
-                setUserId(user.userId)
-                setData({
-                    isLoading: false
-                })
-                console.log('Profile loaded')
+                Alert.alert(JSON.stringify(response))
+                    UserUtil.getLoggedInUserId().then(currentUserId => {
+                        if(currentUserId !== null){
+                            response.forEach(iUser => {
+                                let iUserJson: any = iUser.toJSON()   
+                                Alert.alert(JSON.stringify(iUserJson.userId === UserUtil.getCurrentUserId()))
+                                console.log('1 : '+iUserJson.userId)
+                                console.log('2 : '+ UserUtil.getCurrentUserId())
+                                if(currentUserId === UserUtil.getCurrentUserId()){
+                                    Alert.alert(JSON.stringify(iUserJson.userId))
+                                    Object.assign(user, iUserJson)
+                                }
+                                setFirstName(user.firstName)
+                                setLastName(user.lastName)
+                                setEmail(user.email)            
+                                setUserId(user.userId)
+                                setData({
+                                    isLoading: false
+                                })
+                                console.log('Profile loaded')    
+                            })
+                        } 
+                    })                    
+                // })                            
             });                                    
         });          
         return unsubscribe
@@ -231,3 +240,7 @@ const styles = StyleSheet.create({
 })
 
 export default ProfileComponent;
+
+function currentUserId(currentUserId: any, arg1: (string: any) => void) {
+    throw new Error('Function not implemented.');
+}

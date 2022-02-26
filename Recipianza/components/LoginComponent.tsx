@@ -1,40 +1,65 @@
-import { signInWithEmailAndPassword } from '@firebase/auth';
+import { signInWithEmailAndPassword, UserCredential } from '@firebase/auth';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView } from "react-native"
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, Alert } from "react-native"
 import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
-import UserUtil from '../utils/UserUtil';
+import { signIn } from '../services/user.api.service';
+import UserUtil from '../Utils/UserUtil';
 import SignUpComponent from './SignUpComponent';
 
 const Stack = createNativeStackNavigator();
-    
+
 const LoginComponentContent = ({navigation}: any) =>{
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
 
-    const handleLogin = () => {
+    // const handleLogin = () => {
         
-        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+    //     if (!strongRegex.test(email)) {
+    //         alert('Please enter a valid email id')
+    //         return false;
+    //     } else if (password.trim().length < 8) {
+    //         alert('Password must be minimum 8 characters')
+    //         return;
+    //     } else {
+    //         signInWithEmailAndPassword(auth, email, password)
+    //         .then(userCredentials => {
+    //             const user = userCredentials.user;
+    //             console.log('Logged in with: ', user.email);
+    //             UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
+    //             UserUtil.setLoggedInUserId(user.uid)
+    //         }).catch(error => {
+    //             alert(error.message)
+    //         })
+    //     }
+    // }
 
+     // New changes
+     async function doLogin() {
         if (!strongRegex.test(email)) {
             alert('Please enter a valid email id')
             return false;
-        } else if (password.trim().length < 6) {
+        }  
+        
+        if (password.trim().length < 8) {
             alert('Password must be minimum 8 characters')
             return;
-        } else {
-            signInWithEmailAndPassword(auth, email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log('Logged in with: ', user.email);
-                UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
-                UserUtil.setLoggedInUserId(user.uid)
-            }).catch(error => {
-                alert(error.message)
-            })
         }
-    }
+
+        signIn(email, password).then((userCredentials: UserCredential) => {            
+            const user = userCredentials.user;
+            console.log('Logged in with: ', user.email);
+            UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
+            UserUtil.setLoggedInUserId(user.uid)
+            Alert.alert(JSON.stringify(user))
+        }).catch(error => {
+            Alert.alert(error.message)
+        })
+     }
+
     return(
         <SafeAreaView style = {styles.container}>
             {/* Top Image View */}
@@ -86,7 +111,7 @@ const LoginComponentContent = ({navigation}: any) =>{
                     </View>
 
                     <TouchableOpacity style = {styles.loginButtonStyle}
-                        onPress={handleLogin}
+                        onPress={doLogin}
                     >
                     <Text style = {styles.buttonFont}>Login</Text>
                     </TouchableOpacity>

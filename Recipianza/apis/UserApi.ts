@@ -1,5 +1,5 @@
 import { getDatabase, Query, ref, set, update } from "firebase/database";
-import UserUtil from "../utils/UserUtil";
+import UserUtil from '../Utils/UserUtil';
 
 const db = getDatabase();
 

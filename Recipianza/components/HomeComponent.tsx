@@ -4,7 +4,7 @@ import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
 import {FlatList, SafeAreaView, StyleSheet, View, Text, Image, TouchableOpacity, Share} from "react-native"
 import { getRecipes } from '../apis/RecipeApi';
-import UserUtil from '../utils/UserUtil';
+import UserUtil from '../Utils/UserUtil';
 import RecipeDetailComponent from './RecipeDetailComponent';
 
 const Stack = createNativeStackNavigator();

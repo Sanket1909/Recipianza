@@ -2,7 +2,7 @@ import { Share } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Constants } from "../constants/Constants";
 
-export default class UserUtil{
+class UserUtil{
 
     static async setUserLoggedInStatus(flag: string){
         try {
@@ -26,7 +26,7 @@ export default class UserUtil{
       return userId
   }
 
-  static getCurrentUserId(): String{
+  static getCurrentUserId(): string{
     let userId: string = ''
     this.getLoggedInUserId().then(response => userId = response != null ? response.toString() : "")
     return userId
@@ -66,3 +66,5 @@ export default class UserUtil{
     }
   };
 }
+
+export default UserUtil; 

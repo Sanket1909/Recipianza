@@ -1,8 +1,9 @@
-import { createUserWithEmailAndPassword } from '@firebase/auth';
+import { createUserWithEmailAndPassword, UserCredential } from '@firebase/auth';
 import React, { useState } from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView } from "react-native";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Alert } from "react-native";
 import { createUser } from '../apis/UserApi';
 import auth from '../config/firebase';
+import { signUpUser } from '../services/user.api.service';
 
 const SignUpComponent = ({navigation}: any) =>{   
     const [firstName, setFirstName] = useState<string>('');
@@ -10,44 +11,76 @@ const SignUpComponent = ({navigation}: any) =>{
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [status, setStatus] = useState('');
     
-    const handleSignUp = () => {
-
-        const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
-
+    const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
+    // const handleSignUp = () => {
+    
+    //     if (firstName.trim().length < 2) {
+    //         alert('Please enter your first name. Name should be greater than 2 characters.')
+    //         return;
+    //     } else if (lastName.trim().length < 2) {
+    //         alert('Please enter your last name. Name should be greater than 2 characters.')
+    //         return;
+    //     } else if (!strongRegex.test(email)) {
+    //         alert('Please enter a valid email id')
+    //         return false;
+    //     } else if (password.trim().length < 8) {
+    //         alert('Password must be minimum 8 characters')
+    //         return;
+    //     } else if (confirmPassword.trim().length < 8) {
+    //         alert('Password must be minimum 8 characters')
+    //         return;
+    //     } else if(password !== confirmPassword){
+    //         alert('Password & Confirm Password must be same.')
+    //         return;
+    //     } else {
+    //         createUserWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             // Signed in 
+    //             const user = userCredential.user;
+    //             console.log(user.email);
+    //             createUser(user.uid, email, firstName, lastName);
+    //             alert('Signup successfull.')
+    //             navigation.navigate('Login');        
+    //         })
+    //         .catch((error) => {            
+    //             alert(error.message);
+    //         });
+    //     }
+    // }
+    
+    // New changes
+    async function doRegister () {
         if (firstName.trim().length < 2) {
-            alert('Please enter your first name. Name should be greater than 2 characters.')
+            Alert.alert('Please enter your first name. Name should be greater than 2 characters.')
             return;
         } else if (lastName.trim().length < 2) {
-            alert('Please enter your last name. Name should be greater than 2 characters.')
+            Alert.alert('Please enter your last name. Name should be greater than 2 characters.')
             return;
         } else if (!strongRegex.test(email)) {
-            alert('Please enter a valid email id')
+            Alert.alert('Please enter a valid email id')
             return false;
-        } else if (password.trim().length < 6) {
-            alert('Password must be minimum 6 characters')
+        } else if (password.trim().length < 8) {
+            Alert.alert('Password must be minimum 8 characters')
             return;
-        } else if (confirmPassword.trim().length < 6) {
-            alert('Password must be minimum 6 characters')
+        } else if (confirmPassword.trim().length < 8) {
+            Alert.alert('Password must be minimum 8 characters')
             return;
         } else if(password !== confirmPassword){
-            alert('Password & Confirm Password must be same.')
+            Alert.alert('Password & Confirm Password must be same.')
             return;
-        } else {
-            createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                console.log(user.email);
-                createUser(user.uid, email, firstName, lastName);
-                alert('Signup successfull.')
-                navigation.navigate('Login');        
-            })
-            .catch((error) => {            
-                alert(error.message);
-            });
         }
-    } 
+        setStatus('Registering ..')
+
+        signUpUser(email, password).then((userCredential: UserCredential) => {
+            createUser(userCredential.user.uid, email, firstName, lastName);
+            Alert.alert('Success, Please Login');
+            navigation.goBack();
+        }).catch(error => {
+            Alert.alert(error.message)
+        })                    
+    }
     return(
             <SafeAreaView style = {styles.container}>
                 
@@ -121,7 +154,7 @@ const SignUpComponent = ({navigation}: any) =>{
                             />
                         </View>
                         <TouchableOpacity style = {styles.buttonStyle}
-                            onPress={handleSignUp}>
+                            onPress={doRegister}>
                             <Text style = {styles.buttonFont}>Sign Up</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
