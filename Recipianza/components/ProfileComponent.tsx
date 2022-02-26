@@ -55,14 +55,12 @@ const ProfileComponentContent = ({navigation}: any) => {
                 lastName: '',
                 email: ''
             }
-            onValue(getUserProfile(), (response) => {
-                Alert.alert(JSON.stringify(response))
+            onValue(getUserProfile(), (response) => {                
                     UserUtil.getLoggedInUserId().then(currentUserId => {
                         if(currentUserId !== null){
                             response.forEach(iUser => {
                                 let iUserJson: any = iUser.toJSON()                                   
-                                if(currentUserId === iUserJson.userId){
-                                    Alert.alert(JSON.stringify(iUserJson.userId))
+                                if(currentUserId === iUserJson.userId){                                    
                                     Object.assign(user, iUserJson)
                                 }
                                 setFirstName(user.firstName)
