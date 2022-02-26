@@ -60,11 +60,8 @@ const ProfileComponentContent = ({navigation}: any) => {
                     UserUtil.getLoggedInUserId().then(currentUserId => {
                         if(currentUserId !== null){
                             response.forEach(iUser => {
-                                let iUserJson: any = iUser.toJSON()   
-                                Alert.alert(JSON.stringify(iUserJson.userId === UserUtil.getCurrentUserId()))
-                                console.log('1 : '+iUserJson.userId)
-                                console.log('2 : '+ UserUtil.getCurrentUserId())
-                                if(currentUserId === UserUtil.getCurrentUserId()){
+                                let iUserJson: any = iUser.toJSON()                                   
+                                if(currentUserId === iUserJson.userId){
                                     Alert.alert(JSON.stringify(iUserJson.userId))
                                     Object.assign(user, iUserJson)
                                 }
@@ -78,8 +75,7 @@ const ProfileComponentContent = ({navigation}: any) => {
                                 console.log('Profile loaded')    
                             })
                         } 
-                    })                    
-                // })                            
+                    })                           
             });                                    
         });          
         return unsubscribe
