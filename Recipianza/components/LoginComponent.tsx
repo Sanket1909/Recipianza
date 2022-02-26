@@ -1,8 +1,7 @@
-import { signInWithEmailAndPassword, UserCredential } from '@firebase/auth';
+import { UserCredential } from '@firebase/auth';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, KeyboardAvoidingView, Alert } from "react-native"
-import auth from '../config/firebase';
 import { Constants } from '../constants/Constants';
 import { signIn } from '../services/user.api.service';
 import UserUtil from '../Utils/UserUtil';
@@ -19,10 +18,10 @@ const LoginComponentContent = ({navigation}: any) =>{
     // const handleLogin = () => {
         
     //     if (!strongRegex.test(email)) {
-    //         alert('Please enter a valid email id')
+    //         Alert.alert('Please enter a valid email id')
     //         return false;
     //     } else if (password.trim().length < 8) {
-    //         alert('Password must be minimum 8 characters')
+    //         Alert.alert('Password must be minimum 8 characters')
     //         return;
     //     } else {
     //         signInWithEmailAndPassword(auth, email, password)
@@ -32,7 +31,7 @@ const LoginComponentContent = ({navigation}: any) =>{
     //             UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
     //             UserUtil.setLoggedInUserId(user.uid)
     //         }).catch(error => {
-    //             alert(error.message)
+    //             Alert.alert(error.message)
     //         })
     //     }
     // }
@@ -40,12 +39,12 @@ const LoginComponentContent = ({navigation}: any) =>{
      // New changes
      async function doLogin() {
         if (!strongRegex.test(email)) {
-            alert('Please enter a valid email id')
+            Alert.alert('Please enter a valid email id')
             return false;
         }  
         
         if (password.trim().length < 8) {
-            alert('Password must be minimum 8 characters')
+            Alert.alert('Password must be minimum 8 characters')
             return;
         }
 
@@ -53,8 +52,7 @@ const LoginComponentContent = ({navigation}: any) =>{
             const user = userCredentials.user;
             console.log('Logged in with: ', user.email);
             UserUtil.setUserLoggedInStatus(Constants.FLAG_TRUE);
-            UserUtil.setLoggedInUserId(user.uid)
-            Alert.alert(JSON.stringify(user))
+            UserUtil.setLoggedInUserId(user.uid);
         }).catch(error => {
             Alert.alert(error.message)
         })

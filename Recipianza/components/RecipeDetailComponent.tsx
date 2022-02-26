@@ -1,6 +1,6 @@
 import { onValue } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { addToFavorites, checkRecipeExistInFavorites, removeFromFavorites } from '../apis/UserApi';
 import auth from '../config/firebase';
 
@@ -13,14 +13,14 @@ const RecipeDetailComponent = ({ route, navigation }: any) =>{
         addToFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)
         setFavorite(true)
         console.log('Favorite add flag : '+favorite)
-        alert('Recipe added to favourites')
+        Alert.alert('Recipe added to favourites')
     }
 
     const removeFavorite = () => {      
         removeFromFavorites(auth.currentUser != null ? auth.currentUser.uid :  '', recipe)      
         setFavorite(false)
         console.log('Favorite remove flag : '+favorite)
-        alert('Recipe removed from favourites')
+        Alert.alert('Recipe removed from favourites')
     }
 
     useEffect(() => {     

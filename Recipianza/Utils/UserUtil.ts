@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { Share } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Constants } from "../constants/Constants";
@@ -8,7 +9,7 @@ class UserUtil{
         try {
             await AsyncStorage.setItem(Constants.IS_USER_LOGGED_IN, flag)
           } catch (e) {
-            alert('Error in Saving the User state');
+            Alert.alert('Error in Saving the User state');
           }
     }
 
@@ -16,7 +17,7 @@ class UserUtil{
       try {
           await AsyncStorage.setItem(Constants.USER_ID, userID)
         } catch (e) {
-          alert('Error in Saving the User Id');
+          Alert.alert('Error in Saving the User Id');
         }
   }
 

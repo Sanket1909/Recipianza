@@ -1,8 +1,7 @@
-import { createUserWithEmailAndPassword, UserCredential } from '@firebase/auth';
+import { UserCredential } from '@firebase/auth';
 import React, { useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Alert } from "react-native";
 import { createUser } from '../apis/UserApi';
-import auth from '../config/firebase';
 import { signUpUser } from '../services/user.api.service';
 
 const SignUpComponent = ({navigation}: any) =>{   

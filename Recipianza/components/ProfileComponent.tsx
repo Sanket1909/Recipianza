@@ -27,7 +27,7 @@ const ProfileComponentContent = ({navigation}: any) => {
             UserUtil.setUserLoggedInStatus(Constants.FLAG_FALSE);
         })
         .catch(error => {
-            alert(error.message);
+            Alert.alert(error.message);
         })
     }
 
